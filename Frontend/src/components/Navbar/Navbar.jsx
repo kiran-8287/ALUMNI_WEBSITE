@@ -28,7 +28,7 @@ const Navbar = () => {
       <div className="desktopMenu">
         <Link to="/" className="desktopMenuListItem">Home</Link>
         <Link to="/about" className="desktopMenuListItem">About us</Link>
-        <Link to="/LifeAtIITPKD" className="desktopMenuListItem">Life At IITPKD</Link>
+        {/* <Link to="/LifeAtIITPKD" className="desktopMenuListItem">Life At IITPKD</Link> */}
         
         <div className="desktopMenuListItem" onMouseEnter={() => setShowDropdown(true)} onMouseLeave={() => setShowDropdown(false)}>
           Alumni
@@ -59,7 +59,7 @@ const Navbar = () => {
       <div className="navMenu" style={{ display: showMenu ? 'flex' : 'none' }}>
         <Link to="/" className="ListItem" onClick={() => setShowMenu(false)}>Home</Link>
         <Link to="/about" className="ListItem" onClick={() => setShowMenu(false)}>About us</Link>
-        <Link to="/LifeAtIITPKD" className="ListItem" onClick={() => setShowMenu(false)}>Life At IITPKD</Link>
+        {/* <Link to="/LifeAtIITPKD" className="ListItem" onClick={() => setShowMenu(false)}>Life At IITPKD</Link> */}
         
         <div className="ListItem" onClick={() => setShowMobileDropdown(!showMobileDropdown)}>
           Alumni

@@ -7,9 +7,9 @@
     align-items: center;
     justify-content: space-between;
     top: 0;
-    z-index: 3;
+    z-index: 1000;
     background: rgb(255, 255, 255);
-    position: sticky;
+    position: fixed;
     box-shadow: 0 4px 10px rgba(31, 31, 28, 0.238);
 }
 

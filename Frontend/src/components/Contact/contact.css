@@ -1,20 +1,25 @@
 .contact-section {
     margin: 2rem auto;
     border-radius: 12px;
-    background: #ffffff;  /* box background */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    background: #ffffff;
+    /* box background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     max-width: 70rem;
-    overflow: hidden;   /* so header blends with box */
+    overflow: hidden;
+    /* so header blends with box */
 }
 
+
 /* Highlighted bar at top of each box */
+
 .section-title {
     margin: 0;
-    background: #21cee8;   /* header bar color */
+    background: #51b0bf;
+    /* header bar color */
     color: white;
-    font-size: 1.3rem;
-    font-weight: 600;
-    padding: 0.4rem 1.2rem;
+    /* font-size: 1.3rem; */
+    /* font-weight: 300; */
+    padding: 0 1.2rem;
     text-align: left;
 }
 
@@ -23,7 +28,8 @@
     justify-content: center;
     flex-wrap: wrap;
     gap: 1.5rem;
-    padding: 1.5rem; /* spacing inside section box */
+    padding: 1.5rem;
+    /* spacing inside section box */
 }
 
 .contact-card {
