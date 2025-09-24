@@ -34,13 +34,17 @@
     font-weight: 500;
     text-decoration: none;
     transition: all 0.3s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
 }
 
 .desktopMenuListItem:hover {
     color: rgb(239, 159, 32);
     border-bottom: 3px solid rgb(239, 159, 32);
 }
-
 
 /* Auth Section Styles */
 
@@ -96,7 +100,6 @@
     transform: scale(1.1);
 }
 
-
 /* Dropdown Menu */
 
 .dropdownMenu {
@@ -123,6 +126,11 @@
     text-decoration: none;
     transition: all 0.2s ease;
     font-size: 0.9rem;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
 }
 
 .dropdownListItem:hover {
