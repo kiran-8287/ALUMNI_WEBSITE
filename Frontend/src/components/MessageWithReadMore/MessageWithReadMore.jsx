@@ -25,9 +25,22 @@ function MessageWithReadMore({ paragraphs, role }) {
     "Deepak Rajendraprasad",
     "Dean (Student Affairs)"
   ];
+  const fullFicMessage= [
+  "Dear Alumni and Well-Wishers,",
+  "Greetings from IIT Palakkad!",
+  "As one of the youngest IITs, we take immense pride in our growing alumni network, which is an integral part of our journey. Your achievements and contributions across diverse fields inspire our students and strengthen the legacy of IIT Palakkad.",
+  "The International and Alumni Relations Office is dedicated to fostering lifelong connections between the institute and its graduates. We strive to create a vibrant community where alumni can engage with their alma mater, mentor students, collaborate on research and industry projects, and contribute to the institute’s continued growth.",
+  "Through various initiatives, events, and networking opportunities, we aim to celebrate your successes, keep you informed about institute developments, and facilitate meaningful interactions.",
+  "Whether you are a recent graduate or a seasoned professional, we invite you to stay connected, share your experiences, and continue to be a part of IIT Palakkad’s ever-expanding global family.",
+  "We look forward to strengthening our bond with each of you. Stay engaged, stay inspired!",
+  "Warm regards,",
+  "Dr Subrahmanyam Mula"
+]
+
 
   const isDirectorMessage = role === "Director's Message";
   const isDeanMessage = role === "Dean Students' Message";
+  const isFicMessage = role === "Faculty-in-Charge Message";
   
   let messageParagraphs, shortMessage, needsReadMore;
   
@@ -38,6 +51,11 @@ function MessageWithReadMore({ paragraphs, role }) {
   } else if (isDeanMessage) {
     messageParagraphs = fullDeanMessage;
     shortMessage = fullDeanMessage.slice(0, 3);
+    needsReadMore = true;
+  }
+  else if (isFicMessage) {
+    messageParagraphs = fullFicMessage;
+    shortMessage = fullFicMessage.slice(0, 4);
     needsReadMore = true;
   } else {
     messageParagraphs = paragraphs;

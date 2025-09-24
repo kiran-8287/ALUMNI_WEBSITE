@@ -53,7 +53,7 @@ const OTPSignIn = () => {
               <div className="popup error"
                onClick={(e) => e.stopPropagation()}
               >
-                <p>Email is not registered. Please <Link to="/Signup">Sign Up</Link>.</p>
+                <p>Email is not registered. Please <Link to="/Signup">Register</Link>.</p>
                 <button className="close-btn" onClick={() => setEmailNotFound(false)}>×</button>
               </div>
             </div>
@@ -97,7 +97,7 @@ const OTPSignIn = () => {
             </div>
           </div>
           <div>
-            <p>If you don't have an account <Link to="/Signup" className='link-btn'>SignUp</Link></p>
+            <p>If you don't have an account <Link to="/Signup" className='link-btn'>register</Link></p>
         </div>
         </form>
         

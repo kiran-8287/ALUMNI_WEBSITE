@@ -4,7 +4,7 @@
     width: 100vw;
     max-width: 90%;
     margin: 0 auto;
-    margin-top: 1rem;
+    margin-top: 3rem;
     max-width: 75rem;
     background: white;
     font: larger;
@@ -236,15 +236,12 @@
         padding: 1rem;
         max-width: 95%;
     }
-    
     .event-header h1 {
         font-size: 2rem;
     }
-    
     .event-content h2 {
         font-size: 1.3rem;
     }
-    
     .event-description,
     .event-highlights,
     .event-objectives,
@@ -265,30 +262,24 @@
     .related-events {
         padding: 1rem;
     }
-    
     .image-slot {
         height: 200px;
         font-size: 1rem;
     }
-    
     .event-date {
         font-size: 1.1rem;
     }
-    
     .event-speaker {
         font-size: 1rem;
     }
-
     .event-photo {
         max-width: 100%;
         border-radius: 8px;
     }
-
     .image-caption {
         font-size: 0.9rem;
         padding: 0 1rem;
     }
-
     .event-image {
         margin: 1.5rem 0;
     }

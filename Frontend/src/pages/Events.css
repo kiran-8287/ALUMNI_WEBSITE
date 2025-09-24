@@ -1,62 +1,69 @@
 .events-container {
+<<<<<<< HEAD
   min-height: 100vh;
   background: transparent;
   margin-top: 3rem;
   padding: 2rem 0;
+=======
+    min-height: 100vh;
+    background: transparent;
+    margin-top: 3rem;
+    padding: 2rem 0;
+>>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
 }
 
 .events-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  padding: 0 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    padding: 0 2rem;
 }
 
 .events-header h1 {
-  font-size: 2.5rem;
-  color: #2c3e50;
-  margin-bottom: 1rem;
-  font-weight: 700;
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-weight: 700;
 }
 
 .events-header p {
-  font-size: 1rem;
-  color: #7f8c8d;
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.6;
+    font-size: 1rem;
+    color: #7f8c8d;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
 }
 
 .events-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
 .event-card {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  text-decoration: none;
-  color: inherit;
-  overflow: hidden;
-  border: 1px solid #eee;
-  background-image: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    border: 1px solid #eee;
+    background-image: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
 }
 
 .event-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
-  border-color: rgba(255, 215, 0, 0.4);
+    transform: translateY(-8px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.4);
 }
 
 .event-card-inner {
-  display: grid;
-  grid-template-columns: 140px 1fr;
-  align-items: stretch;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    align-items: stretch;
 }
 
 .event-image-col {
@@ -74,6 +81,7 @@
 }
 
 .event-date-col {
+<<<<<<< HEAD
   background: #FFECB3;
   color: #5C3B00;
   display: flex;
@@ -81,42 +89,51 @@
   justify-content: center;
   align-items: center;
   padding: 1rem;
+=======
+    background: #FFECB3;
+    color: #5C3B00;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+>>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
 }
 
 .date-weekday {
-  font-size: 0.8rem;
-  opacity: 0.9;
+    font-size: 0.8rem;
+    opacity: 0.9;
 }
 
 .date-day {
-  font-size: 1.2rem;
-  font-weight: 800;
-  line-height: 1;
-  margin: 0.1rem 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    line-height: 1;
+    margin: 0.1rem 0;
 }
 
 .date-monthyear {
-  font-size: 0.8rem;
-  opacity: 0.9;
+    font-size: 0.8rem;
+    opacity: 0.9;
 }
 
 .event-info-col {
-  padding: 0.5rem 0.85rem;
+    padding: 0.5rem 0.85rem;
 }
 
 .event-title {
-  margin: 0 0 0.25rem 0;
-  font-size: 2.5rem;
-  line-height: 1.15;
+    margin: 0 0 0.25rem 0;
+    font-size: 2.5rem;
+    line-height: 1.15;
 }
 
 .event-venue,
 .event-desc,
 .event-duration {
-  margin: 0;
-  color: #566573;
-  font-size: 0.8rem;
-  line-height: 1.1;
+    margin: 0;
+    color: #566573;
+    font-size: 0.8rem;
+    line-height: 1.1;
 }
 
 
@@ -124,82 +141,106 @@
 
 .event-venue,
 .event-desc {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
+.event-duration {
+    white-space: nowrap;
+}
+<<<<<<< HEAD
 
 .event-duration {
   white-space: nowrap;
 }
+=======
+>>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
 
 .event-card-content {
-  padding: 2rem;
+    padding: 2rem;
 }
 
 .event-card h3 {
+<<<<<<< HEAD
   font-size: inherit;
   /* inherit from class-specific styles like .event-title */
   color: #000000;
   margin-bottom: 1rem;
   font-weight: 600;
   line-height: 1.3;
+=======
+    font-size: inherit;
+    /* inherit from class-specific styles like .event-title */
+    color: #000000;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+>>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
 }
 
 .event-card p {
-  color: #7f8c8d;
-  font-size: 1rem;
-  line-height: 1.6;
-  margin-bottom: 1rem;
+    color: #7f8c8d;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
 }
 
 .event-card-footer {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-top: 0.15rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 0.15rem;
 }
 
 .view-details {
-  color: black;
-  font-weight: 600;
-  font-size: 0.8rem;
-  transition: color 0.3s ease;
+    color: black;
+    font-weight: 600;
+    font-size: 0.8rem;
+    transition: color 0.3s ease;
 }
 
 .event-card:hover .view-details {
-  color: black;
+    color: black;
 }
 
 
 /* Underline for listing page heading */
 
 .events-header h1 {
-  position: relative;
-  display: inline-block;
-  padding-bottom: 0.5rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
 }
 
 .events-header h1::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: -0.35rem;
-  width: 180px;
-  height: 4px;
-  background: #FFD700;
-  border-radius: 3px;
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -0.35rem;
+    width: 180px;
+    height: 4px;
+    background: #FFD700;
+    border-radius: 3px;
 }
 
+.event-card h3::after {
+    content: none;
+}
+
+<<<<<<< HEAD
 .event-card h3::after {
   content: none;
 }
 
+=======
+>>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
 
 /* Responsive Design */
 
 @media (max-width: 768px) {
+<<<<<<< HEAD
   .events-container {
       padding: 1rem 0;
   }
@@ -236,12 +277,51 @@
   .event-card-content {
       padding: 1.25rem;
   }
+=======
+    .events-container {
+        padding: 1rem 0;
+    }
+    .events-header {
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+    }
+    .events-header h1 {
+        font-size: 2rem;
+    }
+    .events-header p {
+        font-size: 1.1rem;
+    }
+    .events-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+    .event-card-content {
+        padding: 1.5rem;
+    }
+    .event-card h3 {
+        font-size: inherit;
+    }
+}
+
+@media (max-width: 480px) {
+    .events-header h1 {
+        font-size: 1.5rem;
+    }
+    .events-header p {
+        font-size: 1rem;
+    }
+    .event-card-content {
+        padding: 1.25rem;
+    }
+>>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
 }
 
 
 /* Additional responsive tuning */
 
 @media (max-width: 1200px) {
+<<<<<<< HEAD
   .event-card-inner {
       grid-template-columns: 130px 1fr;
   }
@@ -300,4 +380,64 @@
   .date-monthyear {
       font-size: 0.85rem;
   }
+=======
+    .event-card-inner {
+        grid-template-columns: 130px 1fr;
+    }
+    .event-title {
+        font-size: 2rem;
+    }
+    .date-day {
+        font-size: 1.8rem;
+    }
+    .date-weekday,
+    .date-monthyear {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+    .event-card-inner {
+        grid-template-columns: 120px 1fr;
+    }
+    .event-title {
+        font-size: 1.6rem;
+    }
+    .event-info-col {
+        padding: 0.5rem 0.75rem;
+    }
+    .date-day {
+        font-size: 1.6rem;
+    }
+    .date-weekday,
+    .date-monthyear {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .event-card-inner {
+        grid-template-columns: 110px 1fr;
+    }
+    .event-title {
+        font-size: 1.35rem;
+        line-height: 1.2;
+    }
+    .event-venue,
+    .event-desc,
+    .event-duration {
+        font-size: 0.75rem;
+        line-height: 1.05;
+    }
+    .date-day {
+        font-size: 1.4rem;
+    }
+    .date-weekday,
+    .date-monthyear {
+        font-size: 0.85rem;
+    }
+>>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
 }

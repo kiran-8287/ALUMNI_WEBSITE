@@ -6,7 +6,7 @@ import menu from "../../assets/menu.svg";
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import useStore from '../../Store';
-
+// import { FaUserCircle } from "react-icons/fa";
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -23,7 +23,9 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <img src={logo} alt="logo" className="logo1" />
+      <a href="/">
+  <img src={logo} alt="logo" className="logo1" />
+</a>
 
       <div className="desktopMenu">
         <Link to="/" className="desktopMenuListItem">Home</Link>

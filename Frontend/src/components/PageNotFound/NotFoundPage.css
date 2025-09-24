@@ -2,7 +2,12 @@
     text-align: center;
     padding: 100px 20px;
     font-family: 'Segoe UI', sans-serif;
-    background-color: white
+    background-color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .not-found-page h1 {
@@ -13,18 +18,35 @@
 
 .not-found-page p {
     font-size: 20px;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+    color: #333;
 }
 
-.home-link {
-    text-decoration: none;
-    padding: 10px 20px;
-    background-color: #0077cc;
-    color: white;
-    border-radius: 5px;
-    font-weight: bold;
+.loading-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.home-link:hover {
-    background-color: #005fa3;
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #eee;
+    border-top: 5px solid #0077cc;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 12px;
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.redirect-msg {
+    font-size: 18px;
+    color: #0077cc;
+    font-weight: 500;
 }
