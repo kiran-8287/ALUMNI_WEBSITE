@@ -1,8 +1,8 @@
 .events-container {
   min-height: 100vh;
   background: transparent;
-  padding: 6rem 0 2rem; /* Added top padding to account for fixed navbar */
-  margin-top: 0;
+  margin-top: 3rem;
+  padding: 2rem 0;
 }
 
 .events-header {
@@ -59,6 +59,20 @@
   align-items: stretch;
 }
 
+.event-image-col {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.event-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
 .event-date-col {
   background: #FFECB3;
   color: #5C3B00;
@@ -67,7 +81,6 @@
   justify-content: center;
   align-items: center;
   padding: 1rem;
-  
 }
 
 .date-weekday {
@@ -106,21 +119,27 @@
   line-height: 1.1;
 }
 
+
 /* Truncate long venue/description lines to keep card compact */
+
 .event-venue,
 .event-desc {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.event-duration { white-space: nowrap; }
+
+.event-duration {
+  white-space: nowrap;
+}
 
 .event-card-content {
   padding: 2rem;
 }
 
 .event-card h3 {
-  font-size: inherit; /* inherit from class-specific styles like .event-title */
+  font-size: inherit;
+  /* inherit from class-specific styles like .event-title */
   color: #000000;
   margin-bottom: 1rem;
   font-weight: 600;
@@ -152,7 +171,9 @@
   color: black;
 }
 
+
 /* Underline for listing page heading */
+
 .events-header h1 {
   position: relative;
   display: inline-block;
@@ -171,100 +192,112 @@
   border-radius: 3px;
 }
 
-.event-card h3::after { content: none; }
+.event-card h3::after {
+  content: none;
+}
+
 
 /* Responsive Design */
+
 @media (max-width: 768px) {
   .events-container {
-    padding: 1rem 0;
+      padding: 1rem 0;
   }
-  
   .events-header {
-    margin-bottom: 2rem;
-    padding: 0 1rem;
+      margin-bottom: 2rem;
+      padding: 0 1rem;
   }
-  
   .events-header h1 {
-    font-size: 2rem;
+      font-size: 2rem;
   }
-  
   .events-header p {
-    font-size: 1.1rem;
+      font-size: 1.1rem;
   }
-  
   .events-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 0 1rem;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 0 1rem;
   }
-  
   .event-card-content {
-    padding: 1.5rem;
+      padding: 1.5rem;
   }
-  
   .event-card h3 {
-    font-size: inherit;
+      font-size: inherit;
   }
 }
 
 @media (max-width: 480px) {
   .events-header h1 {
-    font-size: 1.5rem;
+      font-size: 1.5rem;
   }
-  
   .events-header p {
-    font-size: 1rem;
+      font-size: 1rem;
   }
-  
   .event-card-content {
-    padding: 1.25rem;
+      padding: 1.25rem;
   }
 }
 
+
 /* Additional responsive tuning */
+
 @media (max-width: 1200px) {
   .event-card-inner {
-    grid-template-columns: 130px 1fr;
+      grid-template-columns: 130px 1fr;
   }
   .event-title {
-    font-size: 2rem;
+      font-size: 2rem;
   }
-  .date-day { font-size: 1.8rem; }
+  .date-day {
+      font-size: 1.8rem;
+  }
   .date-weekday,
-  .date-monthyear { font-size: 1rem; }
+  .date-monthyear {
+      font-size: 1rem;
+  }
 }
 
 @media (max-width: 992px) {
   .events-grid {
-    grid-template-columns: 1fr;
+      grid-template-columns: 1fr;
   }
   .event-card-inner {
-    grid-template-columns: 120px 1fr;
+      grid-template-columns: 120px 1fr;
   }
   .event-title {
-    font-size: 1.6rem;
+      font-size: 1.6rem;
   }
-  .event-info-col { padding: 0.5rem 0.75rem; }
-  .date-day { font-size: 1.6rem; }
+  .event-info-col {
+      padding: 0.5rem 0.75rem;
+  }
+  .date-day {
+      font-size: 1.6rem;
+  }
   .date-weekday,
-  .date-monthyear { font-size: 0.95rem; }
+  .date-monthyear {
+      font-size: 0.95rem;
+  }
 }
 
 @media (max-width: 600px) {
   .event-card-inner {
-    grid-template-columns: 110px 1fr;
+      grid-template-columns: 110px 1fr;
   }
   .event-title {
-    font-size: 1.35rem;
-    line-height: 1.2;
+      font-size: 1.35rem;
+      line-height: 1.2;
   }
   .event-venue,
   .event-desc,
   .event-duration {
-    font-size: 0.75rem;
-    line-height: 1.05;
+      font-size: 0.75rem;
+      line-height: 1.05;
   }
-  .date-day { font-size: 1.4rem; }
+  .date-day {
+      font-size: 1.4rem;
+  }
   .date-weekday,
-  .date-monthyear { font-size: 0.85rem; }
+  .date-monthyear {
+      font-size: 0.85rem;
+  }
 }

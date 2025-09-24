@@ -4,6 +4,13 @@ import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import './Events.css';
 
+// Event images
+import sacAlumnimeet from '../assets/SACAlumnimeet.png';
+import cvWriting from '../assets/CVWritingMitul.png';
+import startup1 from '../assets/Building a tech startup 1.png';
+import informal1 from '../assets/Informal Meet of International Students 1.png';
+import fallbackImg from '../assets/iit_pkd.jpg';
+
 const Events = () => {
   const events = [
     {
@@ -74,6 +81,14 @@ const Events = () => {
     }
   ];
 
+  // Map events to their images (fallback for those without a specific image)
+  const eventImages = {
+    1: sacAlumnimeet,
+    2: cvWriting,
+    3: startup1,
+    4: informal1,
+  };
+
   return (
     <div>
       <Navbar />
@@ -87,10 +102,13 @@ const Events = () => {
           {events.map((event) => (
             <Link to={event.route} key={event.id} className="event-card">
               <div className="event-card-inner">
-                <div className="event-date-col">
-                  <div className="date-weekday">{event.weekday}</div>
-                  <div className="date-day">{event.day}</div>
-                  <div className="date-monthyear">{event.monthYear}</div>
+                <div className="event-image-col">
+                  <img
+                    className="event-image"
+                    src={eventImages[event.id] || fallbackImg}
+                    alt={event.name}
+                    loading="lazy"
+                  />
                 </div>
                 <div className="event-info-col">
                   <h3 className="event-title">{event.name}</h3>
