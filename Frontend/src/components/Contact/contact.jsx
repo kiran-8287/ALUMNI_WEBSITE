@@ -45,7 +45,8 @@ const ContactPage = () => {
     <div>
       {/* Faculty / Office Address */}
       <div className="contact-section">
-        <h1 className="section-title">Office Address</h1>
+        <h1 className="section-title">Office Representatives</h1>
+
         <div className="contact-cards">
           {contacts.faculty.map((person, idx) => (
             <ContactCard key={idx} person={person} />

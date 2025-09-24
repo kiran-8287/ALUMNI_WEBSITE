@@ -37,13 +37,14 @@ const ReachUs = () => {
     };
     // Publication data
     const footprintsEditions = [
-        { id: 1, title: "Edition 1", url: "https://drive.google.com/file/d/1xK7rInROCQ59MGoZqjlJTjw3wMp3WcUV/view?usp=sharing" },
-        { id: 2, title: "Issue 2", url: "https://drive.google.com/file/d/1VKp5kI0jD9sGoE3sVIr8hhgsfXTKhU23/view?usp=drive_link" },
-        { id: 3, title: "Edition 2", url: "https://drive.google.com/file/d/1-zNNZUni8odeYjqxReuEnsUJoCgOJrh6/view?usp=sharing" },
-        { id: 4, title: "Edition 3", url: "https://drive.google.com/file/d/12dYoLelfl8mwL_QOZRzcWi1JtAUaM1vL/view?usp=sharing" },
-        { id: 5, title: "Edition 4", url: "https://drive.google.com/file/d/1DgO5z8jBIDzaLmW4LKhfwgjMg_bgC5Gg/view?usp=sharing" },
-        { id: 6, title: "Edition 5", url: "https://drive.google.com/file/d/1NqlkO0xRLRzX8HZwC9RS2OecIZdsxUIx/view?usp=sharing" }
-    ];
+  { id: 1, title: "Edition 1", url: "/footprints/Footprints_Edition1.pdf" },
+  { id: 2, title: "Issue 2", url: "/footprints/Footprints_Issue2.pdf" },
+  { id: 3, title: "Edition 2", url: "/footprints/Footprints_Edition2.pdf" },
+  { id: 4, title: "Edition 3", url: "/footprints/Footprints_Edition3.pdf" },
+  { id: 5, title: "Edition 4", url: "/footprints/Footprints_Edition4.pdf" },
+  { id: 6, title: "Edition 5", url: "/footprints/Footprints_Edition5.pdf" }
+];
+
 
     const newsletters = [
         { id: 1, title: "Newsletter 1", url: "https://drive.google.com/file/d/1V6h9yItZnlhNJlVNSrSyF2hm9PnXUK7a/view" },
@@ -62,8 +63,9 @@ const ReachUs = () => {
                             <div className="section-underline"></div>
                         </div>
                         
-                        <div className="publication-category">
-                            <h3>Newsletters</h3>
+                        {/* <div className="publication-category"> */}
+                            {/* these are the Newsletters  */}
+                            {/* <h3>Newsletters</h3>
 
                             <div className="publication-grid">
                                 { newsletters.map(edition => (
@@ -79,7 +81,7 @@ const ReachUs = () => {
                                     </a>
                                 ))}
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="publication-category">
                             <h3>Footprints Editions</h3>

@@ -10,7 +10,8 @@ function Footer() {
           <div className="footer-section">
             <img src={iarLogo} alt="IAR CELL" className="footer-logo" />
             <h3>IAR CELL</h3>
-            <p>We here provide a lot of opportunity for every students from around the world to explore and learn in a conducive environment</p>
+            <p>"Global Opportunities, Lifelong Connections"</p>
+            {/* <p>We here provide a lot of opportunity for every students from around the world to explore and learn in a conducive environment</p> */}
           </div>
           <div className="footer-section">
             <h3>USEFUL LINKS</h3>
