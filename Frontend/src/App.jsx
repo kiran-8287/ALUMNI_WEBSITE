@@ -15,6 +15,7 @@ import LIfeAtIITPKD from "./pages/LIfeAtIITPKD"
 import NotableAlumni from "./pages/NotableAlumni"
 import AlumniDirectorySignIn from "./pages/AlumniDirectorySignIn"
 import PrivateRoute1 from './ProtectedRoute';
+import PrivateRouteProfile from './ProtectedRouteProfile';
 import AlumniDirectory from "./pages/AlumniDirectory"
 import useStore from './Store';
 import OTPSignIn from './components/Sign_In/Sign_In';
@@ -40,18 +41,16 @@ function App() {
         <Route path="/Event5" element={<Event5 />} />
         <Route path="/Event6" element={<Event6 />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/LifeAtIITPKD" element={<LIfeAtIITPKD/>}/>
-        <Route path="/profile" element={<AlumniProfile />} />
-        <Route path="/Admin" element={<Admin/>}/>
-        <Route path="/Otp" element={<OTPSignIn/>}/>
+        <Route path="/LifeAtIITPKD" element={<LIfeAtIITPKD />} />
+        <Route path="/Verification" element={<OTPSignIn/>}/>
         <Route path="/NotableAlumni" element={<NotableAlumni />} />
         <Route path="/AlumniDirectorySignIn" element={<AlumniDirectorySignIn/>}/>
         {/* <Route path="/SignIn" element={<SignIn setToken={setToken} />} /> */}
         <Route path="/SignUp" element={<SignUpPage />} />
-        
-        <Route element={<PrivateRoute1 token={token}/>}> 
-            <Route path="/AlumniDirectory" element={<AlumniDirectory/>}/>    
-        </Route>
+        {/* Protected Routes */}
+        <Route element={<PrivateRoute1 token={token}/>}> <Route path="/AlumniDirectory" element={<AlumniDirectory />} />  </Route>
+        <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/profile" element={<AlumniProfile />} />  </Route>
+        <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/Admin" element={<AlumniProfile />} />  </Route>
           <Route path="*" element={<NotFoundPage />} />
       </Routes>
       </Router>

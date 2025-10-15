@@ -22,7 +22,7 @@ const AlumniDirectorySignIn = () => {
             <p className="alumni-message">
               You need to be logged in to see the results
             </p>
-            <Link to="/Otp" className="alumni-signin-btn">Sign In</Link>
+            <Link to="/Verification" className="alumni-signin-btn">Sign In</Link>
             <p className="alumni-subtitle">Why do I need to login?</p>
             <p className="alumni-description">
               This platform is for alumni, students and faculty of IIT Palakkad. By logging in, 

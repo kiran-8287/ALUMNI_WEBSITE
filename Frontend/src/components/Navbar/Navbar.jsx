@@ -52,7 +52,7 @@ const Navbar = () => {
             <button onClick={handleLogout} className="logout-button">Logout</button>
           </div>
         ) : (
-          <Link to="/Otp" className="signin-button">Sign In</Link>
+          <Link to="/Verification" className="signin-button">Sign In</Link>
         )}
       </div>
 
@@ -81,7 +81,7 @@ const Navbar = () => {
             <div className="ListItem logout-item" onClick={handleLogout}>Logout</div>
           </>
         ) : (
-          <Link to="/Otp" className="ListItem" onClick={() => setShowMenu(false)}>Sign In</Link>
+          <Link to="/Verification" className="ListItem" onClick={() => setShowMenu(false)}>Sign In</Link>
         )}
       </div>
     </nav>
