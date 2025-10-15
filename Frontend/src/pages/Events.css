@@ -1,15 +1,8 @@
 .events-container {
-<<<<<<< HEAD
-  min-height: 100vh;
-  background: transparent;
-  margin-top: 3rem;
-  padding: 2rem 0;
-=======
     min-height: 100vh;
     background: transparent;
     margin-top: 3rem;
     padding: 2rem 0;
->>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
 }
 
 .events-header {
@@ -67,37 +60,35 @@
 }
 
 .event-image-col {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 .event-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
 }
 
 .event-date-col {
-<<<<<<< HEAD
-  background: #FFECB3;
-  color: #5C3B00;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-=======
-    background: #FFECB3;
+    <<<<<<< HEAD background: #FFECB3;
     color: #5C3B00;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 1rem;
->>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
+    =======background: #FFECB3;
+    color: #5C3B00;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    >>>>>>>80b325c08ebabe37dbba87b1eea666327049e184
 }
 
 .date-weekday {
@@ -149,34 +140,29 @@
 .event-duration {
     white-space: nowrap;
 }
-<<<<<<< HEAD
 
-.event-duration {
-  white-space: nowrap;
+<<<<<<< HEAD .event-duration {
+    white-space: nowrap;
 }
-=======
->>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
 
-.event-card-content {
+=======>>>>>>>80b325c08ebabe37dbba87b1eea666327049e184 .event-card-content {
     padding: 2rem;
 }
 
 .event-card h3 {
-<<<<<<< HEAD
-  font-size: inherit;
-  /* inherit from class-specific styles like .event-title */
-  color: #000000;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  line-height: 1.3;
-=======
-    font-size: inherit;
+    <<<<<<< HEAD font-size: inherit;
     /* inherit from class-specific styles like .event-title */
     color: #000000;
     margin-bottom: 1rem;
     font-weight: 600;
     line-height: 1.3;
->>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
+    =======font-size: inherit;
+    /* inherit from class-specific styles like .event-title */
+    color: #000000;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    line-height: 1.3;
+    >>>>>>>80b325c08ebabe37dbba87b1eea666327049e184
 }
 
 .event-card p {
@@ -229,56 +215,15 @@
     content: none;
 }
 
-<<<<<<< HEAD
-.event-card h3::after {
-  content: none;
+<<<<<<< HEAD .event-card h3::after {
+    content: none;
 }
 
-=======
->>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
-
+=======>>>>>>>80b325c08ebabe37dbba87b1eea666327049e184
 /* Responsive Design */
 
 @media (max-width: 768px) {
-<<<<<<< HEAD
-  .events-container {
-      padding: 1rem 0;
-  }
-  .events-header {
-      margin-bottom: 2rem;
-      padding: 0 1rem;
-  }
-  .events-header h1 {
-      font-size: 2rem;
-  }
-  .events-header p {
-      font-size: 1.1rem;
-  }
-  .events-grid {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      padding: 0 1rem;
-  }
-  .event-card-content {
-      padding: 1.5rem;
-  }
-  .event-card h3 {
-      font-size: inherit;
-  }
-}
-
-@media (max-width: 480px) {
-  .events-header h1 {
-      font-size: 1.5rem;
-  }
-  .events-header p {
-      font-size: 1rem;
-  }
-  .event-card-content {
-      padding: 1.25rem;
-  }
-=======
-    .events-container {
+    <<<<<<< HEAD .events-container {
         padding: 1rem 0;
     }
     .events-header {
@@ -314,74 +259,50 @@
     .event-card-content {
         padding: 1.25rem;
     }
->>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
+    =======.events-container {
+        padding: 1rem 0;
+    }
+    .events-header {
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+    }
+    .events-header h1 {
+        font-size: 2rem;
+    }
+    .events-header p {
+        font-size: 1.1rem;
+    }
+    .events-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 0 1rem;
+    }
+    .event-card-content {
+        padding: 1.5rem;
+    }
+    .event-card h3 {
+        font-size: inherit;
+    }
+}
+
+@media (max-width: 480px) {
+    .events-header h1 {
+        font-size: 1.5rem;
+    }
+    .events-header p {
+        font-size: 1rem;
+    }
+    .event-card-content {
+        padding: 1.25rem;
+    }
+    >>>>>>>80b325c08ebabe37dbba87b1eea666327049e184
 }
 
 
 /* Additional responsive tuning */
 
 @media (max-width: 1200px) {
-<<<<<<< HEAD
-  .event-card-inner {
-      grid-template-columns: 130px 1fr;
-  }
-  .event-title {
-      font-size: 2rem;
-  }
-  .date-day {
-      font-size: 1.8rem;
-  }
-  .date-weekday,
-  .date-monthyear {
-      font-size: 1rem;
-  }
-}
-
-@media (max-width: 992px) {
-  .events-grid {
-      grid-template-columns: 1fr;
-  }
-  .event-card-inner {
-      grid-template-columns: 120px 1fr;
-  }
-  .event-title {
-      font-size: 1.6rem;
-  }
-  .event-info-col {
-      padding: 0.5rem 0.75rem;
-  }
-  .date-day {
-      font-size: 1.6rem;
-  }
-  .date-weekday,
-  .date-monthyear {
-      font-size: 0.95rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .event-card-inner {
-      grid-template-columns: 110px 1fr;
-  }
-  .event-title {
-      font-size: 1.35rem;
-      line-height: 1.2;
-  }
-  .event-venue,
-  .event-desc,
-  .event-duration {
-      font-size: 0.75rem;
-      line-height: 1.05;
-  }
-  .date-day {
-      font-size: 1.4rem;
-  }
-  .date-weekday,
-  .date-monthyear {
-      font-size: 0.85rem;
-  }
-=======
-    .event-card-inner {
+    <<<<<<< HEAD .event-card-inner {
         grid-template-columns: 130px 1fr;
     }
     .event-title {
@@ -439,5 +360,63 @@
     .date-monthyear {
         font-size: 0.85rem;
     }
->>>>>>> 80b325c08ebabe37dbba87b1eea666327049e184
+    =======.event-card-inner {
+        grid-template-columns: 130px 1fr;
+    }
+    .event-title {
+        font-size: 2rem;
+    }
+    .date-day {
+        font-size: 1.8rem;
+    }
+    .date-weekday,
+    .date-monthyear {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+    .event-card-inner {
+        grid-template-columns: 120px 1fr;
+    }
+    .event-title {
+        font-size: 1.6rem;
+    }
+    .event-info-col {
+        padding: 0.5rem 0.75rem;
+    }
+    .date-day {
+        font-size: 1.6rem;
+    }
+    .date-weekday,
+    .date-monthyear {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .event-card-inner {
+        grid-template-columns: 110px 1fr;
+    }
+    .event-title {
+        font-size: 1.35rem;
+        line-height: 1.2;
+    }
+    .event-venue,
+    .event-desc,
+    .event-duration {
+        font-size: 0.75rem;
+        line-height: 1.05;
+    }
+    .date-day {
+        font-size: 1.4rem;
+    }
+    .date-weekday,
+    .date-monthyear {
+        font-size: 0.85rem;
+    }
+    >>>>>>>80b325c08ebabe37dbba87b1eea666327049e184
 }
