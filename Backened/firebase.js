@@ -1,12 +1,12 @@
 const admin = require("firebase-admin");
-require("dotenv").config();
+const serviceAccount = require("./Key.json");
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG);
-
-admin.initializeApp({
+if (!admin.apps.length) {
+  admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-});
+  });
+  console.log("✅ Firebase Admin initialized successfully.");
+}
 
 const firestore = admin.firestore();
-
 module.exports = { firestore, admin };
