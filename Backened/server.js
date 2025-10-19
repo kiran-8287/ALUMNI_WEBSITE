@@ -47,11 +47,11 @@ function generateOTP() {
 // POST /send-otp
 app.post("/send-otp", async(req, res) => {
     const { email } = req.body;
+    console.log("Sending OTP to:", email);
     if (!email) return res.status(400).json({ error: "Email is required" });
 
     const otp = generateOTP();
     const expiresAt = Date.now() + 5 * 60 * 1000;
-
     otpStore[email] = { code: otp, expiresAt };
 
     const mailOptions = {
@@ -75,13 +75,12 @@ app.post("/send-otp", async(req, res) => {
     };
 
     try {
-        await transporter.sendMail(mailOptions);
+        const info = await transporter.sendMail(mailOptions); // <-- capture result here
+        console.log("✅ Email sent response:", info.response);
         res.json({ success: true, message: "OTP sent via email" });
     } catch (err) {
         console.error("❌ Failed to send email:", err);
-        res
-            .status(500)
-            .json({ success: false, message: "Failed to send OTP email" });
+        res.status(500).json({ success: false, message: "Failed to send OTP email" });
     }
 });
 
