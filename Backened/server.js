@@ -63,16 +63,21 @@ function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
+
 // POST /send-otp
 app.post("/send-otp", async(req, res) => {
     const { email } = req.body;
+    console.log("Sending OTP to:", email);
+
     if (!email) return res.status(400).json({ error: "Email is required" });
 
+    // Generate OTP and expiration time
     const otp = generateOTP();
     const ttl = 5 * 60 * 1000; //5 minutes
     // otpStore[email] = { code: otp, expiresAt };
     otpStore.set(email, { otp, expiresAt: Date.now() + ttl });
 
+    // Prepare email
     const mailOptions = {
         from: `"IIT Palakkad Alumni Portal" <${process.env.EMAIL_USER}>`,
         to: email,
@@ -91,18 +96,16 @@ app.post("/send-otp", async(req, res) => {
             </div>
             `,
     };
-
     try {
         await transporter.sendMail(mailOptions);
         console.log(`✅ OTP sent to ${email}`);
         res.json({ success: true, message: "OTP sent successfully" });
     } catch (err) {
         console.error("❌ Failed to send email:", err);
-        res
-            .status(500)
-            .json({ success: false, message: "Failed to send OTP email" });
+        res.status(500).json({ success: false, message: "Failed to send OTP email" });
     }
 });
+
 
 
 app.post("/verify-otp", (req, res) => {
