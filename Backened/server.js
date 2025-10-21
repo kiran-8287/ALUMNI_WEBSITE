@@ -3,6 +3,8 @@ const express = require("express");
 // const mysql = require("mysql2");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const { firestore } = require("./firebase");
+
 
 const app = express();
 const PORT = process.env.PORT || 5175;
@@ -11,9 +13,6 @@ const PORT = process.env.PORT || 5175;
 // Middleware
 app.use(cors());
 app.use(express.json());
-// Firebase Admin SDK Initialization for firestore db
-// the configuration file with firebase account credentials in the same directory 
-const { firestore } = require("./firebase");
 
 
 // Simulate a connection check for the Firestore database
@@ -26,10 +25,17 @@ firestore.collection('students').limit(1).get()
     });
 
 
+/* -------------------------------------------------------------------------- */
+/*                            🔐 Email Configuration                          */
+/* -------------------------------------------------------------------------- */
 
-// Nodemailer Transporter
+
+
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    // service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -37,8 +43,21 @@ const transporter = nodemailer.createTransport({
 });
 
 
-// OTP store (in-memory)
-const otpStore = {}; // { email: { code: '123456', expiresAt: Date } }
+// Verify transporter (optional but useful)
+transporter.verify((error, success) => {
+    if (error) {
+        console.error("❌ Email transporter config error:", error);
+    } else {
+        console.log("✅ Ready to send OTP emails");
+    }
+});
+
+/* -------------------------------------------------------------------------- */
+/*                                🔢 OTP Logic                                */
+/* -------------------------------------------------------------------------- */
+
+// const otpStore = {}; // { email: { code: '123456', expiresAt: Date } }
+const otpStore = new Map();
 
 function generateOTP() {
     return Math.floor(100000 + Math.random() * 900000).toString();
@@ -50,33 +69,33 @@ app.post("/send-otp", async(req, res) => {
     if (!email) return res.status(400).json({ error: "Email is required" });
 
     const otp = generateOTP();
-    const expiresAt = Date.now() + 5 * 60 * 1000;
-
-    otpStore[email] = { code: otp, expiresAt };
+    const ttl = 5 * 60 * 1000; //5 minutes
+    // otpStore[email] = { code: otp, expiresAt };
+    otpStore.set(email, { otp, expiresAt: Date.now() + ttl });
 
     const mailOptions = {
-        from: `"IIT Palakkad Portal" <${process.env.EMAIL_USER}>`,
+        from: `"IIT Palakkad Alumni Portal" <${process.env.EMAIL_USER}>`,
         to: email,
         subject: "Your OTP for IIT Palakkad Alumni Portal",
         html: `
             <div style="font-family:Arial,sans-serif;padding:20px;">
-                <h2>🔐 Your OTP Code</h2>
+                <h2>🔐 One-Time Password (OTP)</h2>
                 <p style="font-size:18px;">
-                    Hello,<br><br>
-                    Your One-Time Password (OTP) is:
-                    <strong style="font-size:24px;">${otp}</strong><br><br>
-                    This OTP is valid for <b>5 minutes</b>.<br><br>
-                    If you did not request this, please ignore this email.
+                Hello,<br><br>
+                Your OTP is: <strong style="font-size:24px;">${otp}</strong><br><br>
+                This code expires in <b>5 minutes</b>.<br><br>
+                If you did not request this, please ignore this email.
                 </p>
                 <hr>
                 <p style="font-size:12px;color:gray;">IIT Palakkad Alumni Authentication System</p>
             </div>
-        `,
+            `,
     };
 
     try {
         await transporter.sendMail(mailOptions);
-        res.json({ success: true, message: "OTP sent via email" });
+        console.log(`✅ OTP sent to ${email}`);
+        res.json({ success: true, message: "OTP sent successfully" });
     } catch (err) {
         console.error("❌ Failed to send email:", err);
         res
@@ -86,36 +105,37 @@ app.post("/send-otp", async(req, res) => {
 });
 
 
-
-// POST /verify-otp
 app.post("/verify-otp", (req, res) => {
     const { email, otp } = req.body;
-    if (!email || !otp)
-        return res.status(400).json({ error: "Email and OTP are required" });
+    if (!email || !otp) return res.status(400).json({ error: "Email and OTP are required" });
 
-    const entry = otpStore[email];
-    if (!entry)
+    const record = otpStore.get(email);
+    if (!record)
         return res
             .status(400)
             .json({ success: false, message: "No OTP found for this email" });
 
-    if (Date.now() > entry.expiresAt) {
-        delete otpStore[email];
+    if (Date.now() > record.expiresAt) {
+        // delete otpStore[email];
+        otpStore.delete(email);
         return res.status(400).json({ success: false, message: "OTP expired" });
     }
 
-    if (otp !== entry.code) {
+    if (otp !== record.otp) {
         return res.status(400).json({ success: false, message: "Invalid OTP" });
     }
 
-    delete otpStore[email];
-    res.json({ success: true, message: "OTP verified successfully" });
+    // delete otpStore[email];
+    otpStore.delete(email);
+    return res.json({ success: true, message: "OTP verified successfully" });
 
 });
 
+/* -------------------------------------------------------------------------- */
+/*                           🧠 Firestore Utilities                           */
+/* -------------------------------------------------------------------------- */
 
-
-
+// Example: check email
 app.post('/check-email', async(req, res) => {
     const { email } = req.body;
     if (!email) return res.status(400).json({ error: 'Email is required' });
@@ -124,11 +144,12 @@ app.post('/check-email', async(req, res) => {
         const snap = await firestore
             .collection('students')
             .where('Email', '==', email)
-            .select() // meta only
+            // .select() // meta only
             .limit(1).get();
         res.json({ exists: !snap.empty });
     } catch (e) {
         console.error(e);
+
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
