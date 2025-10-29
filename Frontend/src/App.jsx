@@ -1,14 +1,10 @@
-import React from 'react'
-import { useState } from 'react';
+// React import not required with new JSX transform; removing unused imports
 import { BrowserRouter as Router, Route,Routes } from "react-router-dom"
 import Home from "./pages/Home"
 import About from "./pages/About"
 import Event1 from "./pages/Events/Event1"
 import Event2 from "./pages/Events/Event2"
 import Event3 from "./pages/Events/Event3"
-import Event4 from "./pages/Events/Event4"
-import Event5 from "./pages/Events/Event5"
-import Event6 from "./pages/Events/Event6"
 import Events from "./pages/Events"
 import ScrollToTop from "./components/ScrollToTop/ScrollToTop"
 import LIfeAtIITPKD from "./pages/LIfeAtIITPKD"
@@ -21,7 +17,6 @@ import useStore from './Store';
 import OTPSignIn from './components/Sign_In/Sign_In';
 import AlumniProfile from './components/Alumni_profile/Alumni_profile';
 import SignUpPage from './components/Signup/signup';
-import Admin from './components/Admin/Admin';
 import './App.css';
 import NotFoundPage from './components/PageNotFound/NotFoudPage';
 function App() {
@@ -37,9 +32,7 @@ function App() {
         <Route path="/Event1" element={<Event1 />} />
         <Route path="/Event2" element={<Event2 />} />
         <Route path="/Event3" element={<Event3 />} />
-        <Route path="/Event4" element={<Event4 />} />
-        <Route path="/Event5" element={<Event5 />} />
-        <Route path="/Event6" element={<Event6 />} />
+        {/* Event4, Event5, Event6 removed */}
         <Route path="/events" element={<Events />} />
         <Route path="/LifeAtIITPKD" element={<LIfeAtIITPKD />} />
         <Route path="/Verification" element={<OTPSignIn/>}/>
