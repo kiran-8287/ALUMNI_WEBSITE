@@ -1,4 +1,5 @@
-// React import not required with new JSX transform; removing unused imports
+import React from 'react'
+import { useState } from 'react';
 import { BrowserRouter as Router, Route,Routes } from "react-router-dom"
 import Home from "./pages/Home"
 import About from "./pages/About"
@@ -17,6 +18,7 @@ import useStore from './Store';
 import OTPSignIn from './components/Sign_In/Sign_In';
 import AlumniProfile from './components/Alumni_profile/Alumni_profile';
 import SignUpPage from './components/Signup/signup';
+import Admin from './components/Admin/Admin';
 import './App.css';
 import NotFoundPage from './components/PageNotFound/NotFoudPage';
 function App() {

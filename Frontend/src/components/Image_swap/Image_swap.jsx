@@ -22,9 +22,9 @@ const Image_swap = ({ setimgcount, playstatus, imgcount, setplaystatus }) => {
           
           </ul>
         </div>
-        <div className="play-icon">
+        {/* <div className="play-icon">
           <img onClick={() => setplaystatus(!playstatus)} src={playstatus ? pause_icon : play_icon} alt="play/pause" />
-        </div>
+        </div> */}
       </div>
     
   );

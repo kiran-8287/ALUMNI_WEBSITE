@@ -1,23 +1,45 @@
 .full {
-    /* margin-top: 50rem; */
-    /* Equal to navbar height */
     position: relative;
-    height: 30rem;
-    width: 90%;
-    max-width: 70rem;
-    /* margin: 0 auto; */
-    margin-left: auto;
-    margin-right: auto;
-    justify-content: center;
-    object-fit: fill;
+    width: 100%;
+    height: 80vh;
+    /* takes most of the screen height */
+    max-height: 800px;
+    margin: 0 auto;
     margin-top: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #000;
+    /* fallback while image loads */
 }
 
+
+/* Image container inside Swap component */
+
 .image {
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: relative;
+    object-fit: cover;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    z-index: 0;
 }
+
+
+/* Active image */
+
+.image.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+
+/* Dot controls */
 
 .dot-play {
     position: absolute;
@@ -40,45 +62,103 @@
 }
 
 .dot-orange {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    height: 14px;
     background: orange;
     border-radius: 50%;
     cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .dot-white {
-    width: 12px;
-    height: 12px;
-    background: white;
+    width: 14px;
+    height: 14px;
+    background: rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease;
 }
+
+.dot-orange:hover,
+.dot-white:hover {
+    transform: scale(1.2);
+}
+
+
+/* Play / Pause icon */
 
 .play-icon {
     position: absolute;
-    bottom: 5%;
-    right: 20%;
+    bottom: 6%;
+    right: 5%;
     z-index: 2;
-    border: black;
     cursor: pointer;
     width: 3.5rem;
+    height: 3.5rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background 0.3s ease;
+}
+
+.play-icon:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.play-icon img {
+    width: 60%;
+    height: 60%;
+}
+
+
+/* Fade animation (if you want extra smoothness) */
+
+@keyframes fadeInOut {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+
+/* Responsive design */
+
+@media (max-width: 1024px) {
+    .full {
+        height: 60vh;
+    }
 }
 
 @media (max-width: 768px) {
     .full {
-        height: 15rem;
+        height: 40vh;
+        margin-top: 4rem;
     }
     .dot-play {
         bottom: 10px;
-    }
-    .play-icon {
-        bottom: 10px;
-        right: 10px;
     }
     .dot-orange,
     .dot-white {
         width: 10px;
         height: 10px;
+    }
+    .play-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        bottom: 10px;
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .full {
+        height: 35vh;
     }
 }
