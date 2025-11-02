@@ -47,7 +47,7 @@ function App() {
         <Route path="/AlumniDirectorySignIn" element={<AlumniDirectorySignIn/>}/>
         {/* <Route path="/SignIn" element={<SignIn setToken={setToken} />} /> */}
         <Route path="/SignUp" element={<SignUpPage />} />
-        {/* Protected Routes */}
+          {/* Protected Routes */}
         <Route element={<PrivateRoute1 token={token}/>}> <Route path="/AlumniDirectory" element={<AlumniDirectory />} />  </Route>
         <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/profile" element={<AlumniProfile />} />  </Route>
         <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/Admin" element={<AlumniProfile />} />  </Route>
