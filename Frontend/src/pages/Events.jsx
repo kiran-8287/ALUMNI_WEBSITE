@@ -3,12 +3,10 @@ import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import './Events.css';
-
 // Event images
 import sacAlumnimeet from '../assets/SACAlumnimeet.png';
 import cvWriting from '../assets/CVWritingMitul.png';
 import startup1 from '../assets/Building a tech startup 1.png';
-import informal1 from '../assets/Informal Meet of International Students 1.png';
 import fallbackImg from '../assets/iit_pkd.jpg';
 
 const Events = () => {
@@ -45,39 +43,6 @@ const Events = () => {
       monthYear: "Oct 2025",
       venue: "Auditorium",
       duration: "Half day event"
-    },
-    {
-      id: 4,
-      name: "Informal Alumni Student Meet",
-      route: "/Event4",
-      description: "Casual networking and mentorship session",
-      weekday: "Wednesday",
-      day: "19",
-      monthYear: "Nov 2025",
-      venue: "Cafeteria",
-      duration: "Evening meetup"
-    },
-    {
-      id: 5,
-      name: "Tech Club Event 5",
-      route: "/Event5",
-      description: "Technology-focused workshop and discussion",
-      weekday: "Monday",
-      day: "01",
-      monthYear: "Dec 2025",
-      venue: "Lab 2",
-      duration: "3 hour workshop"
-    },
-    {
-      id: 6,
-      name: "Tech Club Event 6",
-      route: "/Event6",
-      description: "Advanced technical skills development",
-      weekday: "Thursday",
-      day: "15",
-      monthYear: "Jan 2026",
-      venue: "Innovation Center",
-      duration: "1 day event"
     }
   ];
 
@@ -86,7 +51,6 @@ const Events = () => {
     1: sacAlumnimeet,
     2: cvWriting,
     3: startup1,
-    4: informal1,
   };
 
   return (
