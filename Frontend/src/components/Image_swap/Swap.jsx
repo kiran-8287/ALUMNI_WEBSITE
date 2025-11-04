@@ -35,7 +35,7 @@ const Swap = ({ playstatus, imgcount }) => {
   //   return <img src={images[imgcount]} alt="" className="background fade-in" />;
   // }
   const images = [
-      img1,
+      // img1,
       img2,
       img3,
       img4,
