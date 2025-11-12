@@ -1,8 +1,12 @@
 const admin = require("firebase-admin");
 require("dotenv").config();
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG);
+const rawConfig = process.env.FIREBASE_CONFIG.trim();
+const cleanedConfig = rawConfig
+    .replace(/^"|"$/g, "") // Remove wrapping quotes if they exist
+    .replace(/\\n/g, "\n"); // Replace escaped newlines
 
+const serviceAccount = JSON.parse(cleanedConfig);
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });

@@ -3,3 +3,5 @@
 .env
 firebase-service-account.json
 .vercel
+firebase_auttentication.json
+test.js
