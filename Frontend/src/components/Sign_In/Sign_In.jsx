@@ -16,12 +16,12 @@ const SignIn = () => {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
 
-      // OPTIONAL: restrict to IIT Palakkad email
-      if (!user.email.endsWith("@iitpkd.ac.in")) {
-        await auth.signOut();
-        alert("Only IIT Palakkad emails are allowed.");
-        return;
-      }
+      // // OPTIONAL: restrict to IIT Palakkad email
+      // if (!user.email.endsWith("@iitpkd.ac.in")) {
+      //   await auth.signOut();
+      //   alert("Only IIT Palakkad emails are allowed.");
+      //   return;
+      // }
 
       setToken(true);
       setUserEmail(user.email);
