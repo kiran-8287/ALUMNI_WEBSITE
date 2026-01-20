@@ -1,16 +1,19 @@
 const admin = require("firebase-admin");
 require("dotenv").config();
 
-const rawConfig = process.env.FIREBASE_CONFIG.trim();
-const cleanedConfig = rawConfig
-    .replace(/^"|"$/g, "") // Remove wrapping quotes if they exist
-    .replace(/\\n/g, "\n"); // Replace escaped newlines
+if (!process.env.FIREBASE_CONFIG) {
+    throw new Error("FIREBASE_CONFIG env variable is missing");
+}
 
-const serviceAccount = JSON.parse(cleanedConfig);
+const serviceAccount = JSON.parse(
+    process.env.FIREBASE_CONFIG.replace(/^"|"$/g, "").replace(/\\n/g, "\n"),
+);
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
 
 const firestore = admin.firestore();
+const auth = admin.auth();
 
-module.exports = { firestore, admin };
+module.exports = { admin, firestore, auth };
