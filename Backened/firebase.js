@@ -6,7 +6,7 @@ if (!process.env.FIREBASE_CONFIG) {
 }
 
 const serviceAccount = JSON.parse(
-    process.env.FIREBASE_CONFIG.replace(/^"|"$/g, "").replace(/\\n/g, "\n"),
+    process.env.FIREBASE_CONFIG.replace(/\\"/g, '"').replace(/\\n/g, "\n")
 );
 
 admin.initializeApp({
