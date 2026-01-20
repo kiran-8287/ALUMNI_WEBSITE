@@ -8,7 +8,7 @@ const useStore = create(
       token: false,
       userEmail: "",
 
-      setToken: (token) => set({ token }),
+      setToken: (val) => set({ token:val }),
       setUserEmail: (email) => set({ userEmail: email }),
       logout: () => set({ token: false, userEmail: "" }),
     }),

@@ -20,7 +20,9 @@ import AlumniProfile from './components/Alumni_profile/Alumni_profile';
 import SignUpPage from './components/Signup/signup';
 import Admin from './components/Admin/Admin';
 import './App.css';
+import IDCardGeneratorPage from './pages/IDCardGenerator/IDCardGenerator';
 import NotFoundPage from './components/PageNotFound/NotFoudPage';
+import Intro from './components/INTRO/Intro';
 function App() {
   const token = useStore((state) => state.token);
   return (
@@ -28,8 +30,8 @@ function App() {
     <Router>
       <ScrollToTop />
       <Routes>
-        
-        <Route path="/" element={<Home />} />
+        <Route path='/' element={<Intro/>}/>
+        <Route path="/home" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/Event1" element={<Event1 />} />
         <Route path="/Event2" element={<Event2 />} />
@@ -43,9 +45,11 @@ function App() {
         {/* <Route path="/SignIn" element={<SignIn setToken={setToken} />} /> */}
         <Route path="/SignUp" element={<SignUpPage />} />
           {/* Protected Routes */}
+          <Route path="/id-card-generator" element={<IDCardGeneratorPage />} />
         <Route element={<PrivateRoute1 token={token}/>}> <Route path="/AlumniDirectory" element={<AlumniDirectory />} />  </Route>
         <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/profile" element={<AlumniProfile />} />  </Route>
-        <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/Admin" element={<AlumniProfile />} />  </Route>
+        {/* <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/Admin" element={<AlumniProfile />} />  </Route> */}
+        <Route path="/Dashboard" element={<Admin />} />  
           <Route path="*" element={<NotFoundPage />} />
       </Routes>
       </Router>

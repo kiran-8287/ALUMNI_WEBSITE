@@ -1,0 +1,697 @@
+/* ID Card Generator Main Container */
+
+.id-card-generator {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+
+/* Form Styles */
+
+.id-card-form {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.id-card-form h2 {
+    color: #2c5aa0;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 28px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #333;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #2c5aa0;
+}
+
+
+/* Button Styles */
+
+.generate-btn {
+    width: 100%;
+    padding: 15px;
+    background: #2c5aa0;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.generate-btn:hover:not(:disabled) {
+    background: #1e3d6f;
+}
+
+.generate-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+}
+
+.download-btn {
+    padding: 12px 30px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background: #218838;
+}
+
+
+/* Preview Section */
+
+.id-card-preview {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.id-card-preview h3 {
+    color: #2c5aa0;
+    margin-bottom: 20px;
+}
+
+.preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.id-card-image {
+    max-width: 100%;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Photo Upload Section */
+
+.photo-upload-section {
+    margin-top: 10px;
+}
+
+.photo-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.upload-btn,
+.camera-btn {
+    flex: 1;
+    padding: 12px;
+    border: 2px dashed #2c5aa0;
+    background: #f8f9fa;
+    color: #2c5aa0;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.upload-btn:hover,
+.camera-btn:hover {
+    background: #2c5aa0;
+    color: white;
+}
+
+.photo-preview {
+    text-align: center;
+    margin: 15px 0;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.square-preview {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 3px solid #2c5aa0;
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.preview-label {
+    font-weight: 600;
+    color: #2c5aa0;
+    margin-bottom: 5px;
+}
+
+.remove-photo-btn {
+    padding: 8px 16px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.remove-photo-btn:hover {
+    background: #c82333;
+}
+
+.photo-help-text {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+
+/* Crop Modal Styles */
+
+.crop-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.crop-modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: 600px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.crop-modal-header {
+    text-align: center;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.crop-modal-header h3 {
+    color: #2c5aa0;
+    margin-bottom: 8px;
+    font-size: 1.5em;
+}
+
+.crop-modal-header p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+.crop-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    max-height: 60vh;
+    overflow: auto;
+    margin-bottom: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    background: #f8f9fa;
+}
+
+.crop-container .ReactCrop {
+    max-height: 100%;
+}
+
+.crop-container img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.crop-modal-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.cancel-crop-btn,
+.apply-crop-btn {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    min-width: 120px;
+    transition: all 0.3s ease;
+}
+
+.cancel-crop-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.cancel-crop-btn:hover:not(:disabled) {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+.apply-crop-btn {
+    background: #28a745;
+    color: white;
+}
+
+.apply-crop-btn:hover:not(:disabled) {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.cancel-crop-btn:disabled,
+.apply-crop-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* ReactCrop Custom Styles */
+
+.ReactCrop__crop-selection {
+    border: 2px solid #2c5aa0;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+}
+
+.ReactCrop__drag-handle {
+    background: #2c5aa0;
+    border: 2px solid white;
+    width: 12px;
+    height: 12px;
+}
+
+.ReactCrop__drag-handle.ord-n {
+    top: -6px;
+}
+
+.ReactCrop__drag-handle.ord-s {
+    bottom: -6px;
+}
+
+.ReactCrop__drag-handle.ord-e {
+    right: -6px;
+}
+
+.ReactCrop__drag-handle.ord-w {
+    left: -6px;
+}
+
+.ReactCrop__drag-handle.ord-ne {
+    top: -6px;
+    right: -6px;
+}
+
+.ReactCrop__drag-handle.ord-nw {
+    top: -6px;
+    left: -6px;
+}
+
+.ReactCrop__drag-handle.ord-se {
+    bottom: -6px;
+    right: -6px;
+}
+
+.ReactCrop__drag-handle.ord-sw {
+    bottom: -6px;
+    left: -6px;
+}
+
+
+/* Camera Modal Styles */
+
+.camera-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.camera-modal {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    max-width: 90%;
+    width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.camera-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.camera-header h3 {
+    color: #2c5aa0;
+    margin: 0;
+}
+
+.close-camera-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.camera-preview {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.camera-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.camera-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.frame-guide {
+    width: 200px;
+    height: 250px;
+    border: 2px solid #00ff00;
+    border-radius: 5px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+}
+
+.camera-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.switch-camera-btn,
+.capture-btn,
+.cancel-camera-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.switch-camera-btn {
+    background: #6c757d;
+    color: white;
+}
+
+.switch-camera-btn:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+.capture-btn {
+    background: #28a745;
+    color: white;
+    font-size: 16px;
+}
+
+.capture-btn:hover {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.cancel-camera-btn {
+    background: #dc3545;
+    color: white;
+}
+
+.cancel-camera-btn:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+.camera-instructions {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: #666;
+}
+
+.camera-instructions p {
+    margin: 5px 0;
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+    .id-card-generator {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .id-card-form,
+    .id-card-preview {
+        padding: 20px;
+    }
+    .photo-buttons {
+        flex-direction: column;
+    }
+    .crop-modal-content {
+        width: 95%;
+        margin: 10px;
+        padding: 15px;
+    }
+    .camera-modal {
+        width: 95%;
+        margin: 10px;
+    }
+    .camera-controls {
+        flex-direction: column;
+    }
+    .camera-preview {
+        height: 250px;
+    }
+    .frame-guide {
+        width: 150px;
+        height: 200px;
+    }
+    .crop-modal-actions {
+        flex-direction: column;
+    }
+    .cancel-crop-btn,
+    .apply-crop-btn {
+        min-width: auto;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .id-card-generator {
+        padding: 20px 10px;
+    }
+    .id-card-form h2 {
+        font-size: 24px;
+    }
+    .crop-container {
+        min-height: 200px;
+        max-height: 50vh;
+    }
+    .camera-preview {
+        height: 200px;
+    }
+    .frame-guide {
+        width: 120px;
+        height: 160px;
+    }
+}
+
+
+/* Loading and State Styles */
+
+.loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #2c5aa0;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Error State Styles */
+
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border: 1px solid #f5c6cb;
+}
+
+.success-message {
+    background: #d1edff;
+    color: #155724;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
+    border: 1px solid #c3e6cb;
+}
+
+
+/* Accessibility Improvements */
+
+.upload-btn:focus,
+.camera-btn:focus,
+.generate-btn:focus,
+.download-btn:focus,
+.remove-photo-btn:focus,
+.cancel-crop-btn:focus,
+.apply-crop-btn:focus,
+.switch-camera-btn:focus,
+.capture-btn:focus,
+.cancel-camera-btn:focus {
+    outline: 2px solid #2c5aa0;
+    outline-offset: 2px;
+}
+
+
+/* High Contrast Mode Support */
+
+@media (prefers-contrast: high) {
+    .id-card-form,
+    .id-card-preview {
+        border: 2px solid #000;
+    }
+    .upload-btn,
+    .camera-btn {
+        border-style: solid;
+    }
+}
+
+
+/* Reduced Motion Support */
+
+@media (prefers-reduced-motion: reduce) {
+    .generate-btn,
+    .download-btn,
+    .upload-btn,
+    .camera-btn,
+    .remove-photo-btn,
+    .cancel-crop-btn,
+    .apply-crop-btn,
+    .switch-camera-btn,
+    .capture-btn,
+    .cancel-camera-btn {
+        transition: none;
+    }
+    .loading-spinner {
+        animation: none;
+    }
+}
