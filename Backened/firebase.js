@@ -1,14 +1,39 @@
 const admin = require("firebase-admin");
-require("dotenv").config();
+const fs = require("fs");
+const path = require("path");
 
-if (!process.env.FIREBASE_CONFIG) {
-    throw new Error("FIREBASE_CONFIG env variable is missing");
+let serviceAccount;
+
+// =======================
+// LOCAL DEVELOPMENT
+// =======================
+if (process.env.NODE_ENV !== "production") {
+    const keyPath = path.join(__dirname, "firebase_auttentication.json");
+
+    if (!fs.existsSync(keyPath)) {
+        throw new Error("❌ serviceAccount.json not found (local)");
+    }
+
+    serviceAccount = require(keyPath);
 }
 
-const serviceAccount = JSON.parse(
-    process.env.FIREBASE_CONFIG.replace(/\\"/g, '"').replace(/\\n/g, "\n")
-);
+// =======================
+// PRODUCTION (Render)
+// =======================
+else {
+    if (!process.env.FIREBASE_CONFIG) {
+        throw new Error("❌ FIREBASE_CONFIG missing in production");
+    }
 
+    serviceAccount = JSON.parse(process.env.FIREBASE_CONFIG);
+
+    // 🔥 FIX PRIVATE KEY NEWLINES
+    serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, "\n");
+}
+
+// =======================
+// INIT FIREBASE
+// =======================
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
