@@ -156,22 +156,51 @@ async function verifyFirebaseToken(req, res, next) {
 // Example: check email
 app.post("/check-email", async(req, res) => {
     const { email } = req.body;
-    if (!email) return res.status(400).json({ error: "Email is required" });
+
+    if (!email) {
+        return res.status(400).json({ error: "Email is required" });
+    }
 
     try {
-        const snap = await firestore
+        // 🔍 Check STUDENTS
+        const studentSnap = await firestore
             .collection("students")
             .where("Email", "==", email)
-            // .select() // meta only
             .limit(1)
             .get();
-        res.json({ exists: !snap.empty });
-    } catch (e) {
-        console.error(e);
 
+        if (!studentSnap.empty) {
+            return res.json({
+                exists: true,
+                role: "alumni",
+            });
+        }
+
+        // 🔍 Check ADMINS
+        const adminSnap = await firestore
+            .collection("admins")
+            .where("Email", "==", email)
+            .limit(1)
+            .get();
+
+        if (!adminSnap.empty) {
+            return res.json({
+                exists: true,
+                role: "admin",
+            });
+        }
+
+        // ❌ Not authorized
+        return res.json({
+            exists: false,
+            role: null,
+        });
+    } catch (error) {
+        console.error("check-email error:", error);
         res.status(500).json({ error: "Internal Server Error" });
     }
 });
+
 
 app.post("/check-duplicate", verifyFirebaseToken, async(req, res) => {
     const { email, campusID } = req.body;
