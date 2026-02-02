@@ -162,6 +162,19 @@ app.post("/check-email", async(req, res) => {
     }
 
     try {
+        // 🔍 Check ADMINS
+        const adminSnap = await firestore
+            .collection("admin")
+            .where("Email", "==", email)
+            .limit(1)
+            .get();
+
+        if (!adminSnap.empty) {
+            return res.json({
+                exists: true,
+                role: "admin",
+            });
+        }
         // 🔍 Check STUDENTS
         const studentSnap = await firestore
             .collection("students")
@@ -173,20 +186,6 @@ app.post("/check-email", async(req, res) => {
             return res.json({
                 exists: true,
                 role: "alumni",
-            });
-        }
-
-        // 🔍 Check ADMINS
-        const adminSnap = await firestore
-            .collection("admins")
-            .where("Email", "==", email)
-            .limit(1)
-            .get();
-
-        if (!adminSnap.empty) {
-            return res.json({
-                exists: true,
-                role: "admin",
             });
         }
 
@@ -295,6 +294,7 @@ app.get("/api/profile", verifyFirebaseToken, async(req, res) => {
 
     if (snapshot.empty) {
         return res.status(404).json({ error: "Profile not found" });
+
     }
 
     res.json(snapshot.docs[0].data());
@@ -405,8 +405,8 @@ app.get("/alumni", verifyFirebaseToken, async(req, res) => {
 
 //api to fetch user profile by email
 // API to update user profile by email
-app.patch("/api/profile/:email", verifyFirebaseToken, async(req, res) => {
-    const email = decodeURIComponent(req.params.email);
+app.patch("/api/profile/", verifyFirebaseToken, async(req, res) => {
+    const email = req.user.email;
     const updatedData = req.body;
 
     try {
