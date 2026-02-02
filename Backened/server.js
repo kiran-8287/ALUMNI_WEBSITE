@@ -154,8 +154,8 @@ async function verifyFirebaseToken(req, res, next) {
 /* -------------------------------------------------------------------------- */
 
 // Example: check email
-app.post("/check-email", async(req, res) => {
-    const { email } = req.body;
+app.post("/check-email", verifyFirebaseToken, async(req, res) => {
+    const email = req.user.email;
 
     if (!email) {
         return res.status(400).json({ error: "Email is required" });
