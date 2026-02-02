@@ -49,8 +49,8 @@ const ReachUs = () => {
     const newsletters = [
         { id: 1, title: "Sahyadri TechXpress ", issue: "Jan 2024", url: "/newsletters/NewsLetters1-issue1.pdf"},
         { id: 2, title: "Sahyadri TechXpress ", issue:"May 2024", url: "/newsletters/NewsLetters1-issue2.pdf"},
-        { id: 2, title: "Sahyadri TechXpress", issue: "Sept 2024", url: "/newsletters/NewsLetters1-issue3.pdf"},
-        { id: 2, title: "Sahyadri TechXpress ", issue: "Jan 2025", url: "/newsletters/NewsLetters2-issue1.pdf"},
+        { id: 3, title: "Sahyadri TechXpress", issue: "Sept 2024", url: "/newsletters/NewsLetters1-issue3.pdf"},
+        { id: 4, title: "Sahyadri TechXpress ", issue: "Jan 2025", url: "/newsletters/NewsLetters2-issue1.pdf"},
         // { id: 2, title: "Newsletter 2", url: "https://drive.google.com/file/d/1GXC2ERhJ38DMiqiWA1d-XF9nTmi85nuT/view" },
         // { id: 3, title: "Newsletter 3", url: "https://iitpkd.ac.in/sites/default/files/uploads2024/4df4c345-ee1f-49f5-8482-79406745bcb0.pdf" },
         // { id: 4, title: "Newsletter 4", url: "https://iitpkd.ac.in/sites/default/files/uploads2025/cc86e22d-43c4-4c26-939b-ccb5707ffc99.pdf" }

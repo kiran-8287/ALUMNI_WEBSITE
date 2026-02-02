@@ -18,6 +18,7 @@ const AdminDashboard = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedDepartment, setSelectedDepartment] = useState('All Departments');
   const [selectedYear, setSelectedYear] = useState('All Years');
+  const [selectedStatus, setSelectedStatus] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(10);
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -137,7 +138,7 @@ const AdminDashboard = () => {
   // CRUD Operations
   const addAlumni = async () => {
     try {
-      const docRef = await addDoc(collection(db, 'alumni'), newAlumni);
+      const docRef = await addDoc(collection(db, 'students'), newAlumni);
       setAlumniData(prev => [...prev, { id: docRef.id, ...newAlumni }]);
       showNotification('Alumni added successfully', 'success');
       setActiveModal(null);
@@ -150,7 +151,7 @@ const AdminDashboard = () => {
 
   const updateAlumni = async () => {
     try {
-      await updateDoc(doc(db, 'alumni', editAlumni.id), editAlumni);
+      await updateDoc(doc(db, 'students', editAlumni.id), editAlumni);
       setAlumniData(prev => 
         prev.map(item => item.id === editAlumni.id ? editAlumni : item)
       );
@@ -165,7 +166,7 @@ const AdminDashboard = () => {
   const deleteAlumni = async (id) => {
     if (window.confirm('Are you sure you want to delete this alumni record?')) {
       try {
-        await deleteDoc(doc(db, 'alumni', id));
+        await deleteDoc(doc(db, 'students', id));
         setAlumniData(prev => prev.filter(item => item.id !== id));
         showNotification('Alumni deleted successfully', 'success');
       } catch (error) {
@@ -181,7 +182,7 @@ const AdminDashboard = () => {
     if (window.confirm(`Delete ${selectedRows.size} selected alumni?`)) {
       try {
         const deletePromises = Array.from(selectedRows).map(id => 
-          deleteDoc(doc(db, 'alumni', id))
+          deleteDoc(doc(db, 'students', id))
         );
         await Promise.all(deletePromises);
         setAlumniData(prev => prev.filter(item => !selectedRows.has(item.id)));
@@ -267,7 +268,11 @@ const AdminDashboard = () => {
     const matchesYear = selectedYear === 'All Years' || 
       alumni.YearOfPassOut === selectedYear;
     
-    return matchesSearch && matchesDept && matchesYear;
+    const matchStatus =
+      selectedStatus === "all" ||
+      alumni.verified === (selectedStatus==="true");
+    
+    return matchesSearch && matchesDept && matchesYear && matchStatus;
   });
 
   const indexOfLastRecord = currentPage * recordsPerPage;
@@ -469,6 +474,16 @@ const AdminDashboard = () => {
               {years.map(year => (
                 <option key={year} value={year}>{year}</option>
               ))}
+            </select>
+
+            <select
+              className='filter-select'
+              value={selectedStatus}
+              onChange={(e)=>setSelectedStatus(e.target.value)}
+            ><option value="all">All Status</option>
+              <option value="true">Verified</option>
+              <option  value="false">Not Verified</option>
+
             </select>
           </div>
         </div>

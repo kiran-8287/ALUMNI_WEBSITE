@@ -6,27 +6,56 @@ import useStore from "../../Store";
 import logo from "../../assets/OTP/IIT_PKD_long logo_RGB.jpg";
 import "./Sign_In.css";
 
+
+// console.log("ENV:", import.meta.env);
+
+const BACKEND_URL = import.meta.env.VITE_BASE_URL;
+console.log("Backend URL:", import.meta.env.VITE_BASE_URL);
+
 const SignIn = () => {
   const navigate = useNavigate();
   const setToken = useStore((state) => state.setToken);
   const setUserEmail = useStore((state) => state.setUserEmail);
-
+  const setTokenId = useStore((state) => state.setTokenId);
+  const setUserRole = useStore((state) => state.setUserRole);
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
+      const tokenId = await user.getIdToken();
+      setTokenId(tokenId);
+    const res = await fetch(`${BACKEND_URL}/check-email`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${tokenId}`,
+      },
+    });
 
-      // // OPTIONAL: restrict to IIT Palakkad email
-      // if (!user.email.endsWith("@iitpkd.ac.in")) {
-      //   await auth.signOut();
-      //   alert("Only IIT Palakkad emails are allowed.");
-      //   return;
+    const data = await res.json();
+
+    if (!data.role) {
+      await signOut(auth);
+      alert("You are not authorized to access this portal.");
+      return;
+    }
+    //   const idToken = await user.getIdToken();
+    //   setTokenId(idToken);
+    //   setToken(true);
+    //   setUserEmail(user.email);
+
+    //   navigate("/");
+    // } catch (error) {
+    //   console.error("Google Sign-In Error:", error);
+    //   alert("Authentication failed. Try again.");
       // }
-
+     
       setToken(true);
       setUserEmail(user.email);
+      setUserRole(data.role); // "admin" or "alumni"
+      console.log("the role is "+data.role);
 
       navigate("/");
+
     } catch (error) {
       console.error("Google Sign-In Error:", error);
       alert("Authentication failed. Try again.");

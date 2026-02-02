@@ -25,6 +25,8 @@ import NotFoundPage from './components/PageNotFound/NotFoudPage';
 import Intro from './components/INTRO/Intro';
 function App() {
   const token = useStore((state) => state.token);
+  const user = useStore((state) => state.userRole);
+  console.log("the user here in the app.jsx file is " + user);
   return (
   <div className='bg'>
     <Router>
@@ -46,10 +48,10 @@ function App() {
         <Route path="/SignUp" element={<SignUpPage />} />
           {/* Protected Routes */}
           <Route path="/id-card-generator" element={<IDCardGeneratorPage />} />
-        <Route element={<PrivateRoute1 token={token}/>}> <Route path="/AlumniDirectory" element={<AlumniDirectory />} />  </Route>
+        <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/AlumniDirectory" element={<AlumniDirectory />} />  </Route>
         <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/profile" element={<AlumniProfile />} />  </Route>
-        {/* <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/Admin" element={<AlumniProfile />} />  </Route> */}
-        <Route path="/Dashboard" element={<Admin />} />  
+        <Route element={<PrivateRouteProfile token={user==="admin"}/>}> <Route path="/Dashboard" element={<Admin />} />  </Route>
+        {/* <Route path="/Dashboard" element={<Admin />} />   */}
           <Route path="*" element={<NotFoundPage />} />
       </Routes>
       </Router>

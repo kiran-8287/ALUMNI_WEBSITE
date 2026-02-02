@@ -33,21 +33,52 @@ const AlumniProfile = () => {
   }
 }, [email]);
 
-const fetchProfile = () => {
-  fetch(`https://alumni-website-v7pq.onrender.com/api/profile/${encodeURIComponent(email)}`)
-    .then(async (res) => {
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("Error Response:", text);
-        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+// const fetchProfile = () => {
+//   fetch(`https://alumni-website-v7pq.onrender.com/api/profile/${encodeURIComponent(email)}`)
+//     .then(async (res) => {
+//       if (!res.ok) {
+//         const text = await res.text();
+//         console.error("Error Response:", text);
+//         throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+//       }
+//       return res.json();
+//     })
+//     .then(data => {
+//       console.log("Fetched profile:", data);
+//       setProfile(data);
+//     })
+//     .catch(err => console.error("Fetch error:", err));
+// };
+const fetchProfile = async () => {
+  try {
+    const auth = (await import("firebase/auth")).getAuth();
+    const user = auth.currentUser;
+
+    if (!user) throw new Error("User not logged in");
+
+    const token = await user.getIdToken();
+
+    const res = await fetch(
+      "https://alumni-website-v7pq.onrender.com/api/profile",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-      return res.json();
-    })
-    .then(data => {
-      console.log("Fetched profile:", data);
-      setProfile(data);
-    })
-    .catch(err => console.error("Fetch error:", err));
+    );
+
+    if (!res.ok) {
+      const text = await res.text();
+      console.error("Error Response:", text);
+      throw new Error(`HTTP ${res.status}`);
+    }
+
+    const data = await res.json();
+    console.log("Fetched profile:", data);
+    setProfile(data);
+  } catch (err) {
+    console.error("Fetch error:", err);
+  }
 };
 
 

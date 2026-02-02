@@ -7,24 +7,35 @@ const UpdateProfileModal = ({ isOpen, onClose, onSuccess }) => {
   const modalRef = useRef(null);
   const [profile, setProfile] = useState(null);
   const email = useStore((state) => state.userEmail);
-
+  const tokenId = useStore((state) => state.tokenId);
   useEffect(() => {
     if (!isOpen) return;
-
+    if (!tokenId) {
+      console.error("No token available");
+      return;
+    }
     if (!email) {
       console.error("No email found");
       return;
     }
-
-    fetch(`https://alumni-website-v7pq.onrender.com/api/profile/${encodeURIComponent(email)}`)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-        return res.json();
-      })
-      .then((data) => {
-        setProfile(data);
-      })
-      .catch((err) => console.error("Error fetching profile:", err));
+    else {
+      console.log(email);
+    }
+    fetch("https://alumni-website-v7pq.onrender.com/api/profile", {
+    headers: {
+      Authorization: `Bearer ${tokenId}`,
+    },
+  })
+    .then(async (res) => {
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("Backend error:", text);
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then((data) => setProfile(data))
+    .catch((err) => console.error("Error fetching profile:", err));
   }, [isOpen]);
 
   useEffect(() => {
@@ -86,24 +97,32 @@ const UpdateProfileModal = ({ isOpen, onClose, onSuccess }) => {
               verified: false,
             };
 
-            fetch(`https://alumni-website-v7pq.onrender.com/api/profile/${encodeURIComponent(profile.Email)}`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(updatedData),
-            })
-              .then((res) => {
-                if (!res.ok) throw new Error("Failed to update profile");
-                return res.json();
-              })
-              .then((data) => {
-                console.log("Profile updated:", data);
-                onSuccess();
-                onClose();
-              })
-              .catch((err) => {
-                console.error("Error updating profile:", err);
-                alert("Failed to update profile. Try again.");
-              });
+
+        fetch("https://alumni-website-v7pq.onrender.com/api/profile", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${tokenId}`,
+          },
+          body: JSON.stringify(updatedData),
+        })
+          .then(async (res) => {
+            if (!res.ok) {
+              const text = await res.text();
+              console.error("Backend error:", text);
+              throw new Error("Failed to update profile");
+            }
+            return res.json();
+          })
+          .then(() => {
+            onSuccess();
+            onClose();
+          })
+          .catch((err) => {
+            console.error("Error updating profile:", err);
+            alert("Failed to update profile. Try again.");
+          });
+
           }}
         >
           <h3 className="section-heading">Personal Information</h3>
