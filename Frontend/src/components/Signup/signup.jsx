@@ -42,7 +42,7 @@ const SignUpPage = () => {
           deptRes.json(), degRes.json(), yearRes.json()
         ]);
 
-        setDepartments(deptData.map(d => d.Deparment));
+        setDepartments(deptData.map(d => d.Department));
         setDegrees(degData.map(d => d.Degree));
         setPassoutYears(yearData.map(y => y.YearOfPassOut));
       } catch (error) {
@@ -114,7 +114,7 @@ const SignUpPage = () => {
         WhatsAppNumber: formData.whatsapp,
         CountryCode: formData.countryCode,
         LinkedInProfile: formData.linkedin,
-        Deparment: formData.department,
+        Department: formData.department,
         Degree: formData.degree,
         YearOfPassOut: formData.passoutYear,
         Hostel: formData.hostel,
@@ -208,7 +208,7 @@ const SignUpPage = () => {
           <input name="awards" value={formData.awards} onChange={handleChange} placeholder="Awards (optional)" className="signup-input-field" />
 
           <div>
-            <p>Already have an account? <Link to="/Otp" className="link-btn">Sign In</Link></p>
+            <p>Already have an account? <Link to="/Verification" className="link-btn">Sign In</Link></p>
           </div>
 
           {successMessage && <p className="success-text">{successMessage}</p>}

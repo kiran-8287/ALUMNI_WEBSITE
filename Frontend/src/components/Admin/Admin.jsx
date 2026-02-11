@@ -533,7 +533,7 @@ const AdminDashboard = () => {
                         </div>
                       </td>
                       <td>{alumni.Email}</td>
-                      <td><span className={`dept-badge ${getDepartmentClass(alumni.Department)}`}>{alumni.Department}</span></td>
+                      <td><span className={`dept-badge ${getDepartmentClass(alumni.Department)}`}>{alumni.Department ?alumni.Department :alumni.Deparment} </span></td>
                       <td>{alumni.YearOfPassOut}</td>
                       <td>{alumni.Designation || '-'}</td>
                       <td>{alumni.Organisation || '-'}</td>

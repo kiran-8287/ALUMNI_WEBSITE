@@ -9,7 +9,8 @@ const ReachUs = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxdM_XiIfI9gyJIF5OarBL4tU-qmM0KUigP-AWSlrNFpV3shFK8dYPurpHAeemSKrw/exec';
+        // const scriptURL = 'https://script.google.com/macros/s/AKfycbxdM_XiIfI9gyJIF5OarBL4tU-qmM0KUigP-AWSlrNFpV3shFK8dYPurpHAeemSKrw/exec';
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwfZPTkHb35smLdOWB_Z7Kw9HnVUb9V09IjLqT2rpygtKZ3MHpKyDoBye0BQQZ0wgNe/exec";
         const form = new FormData();
 
         form.append('name', name);
