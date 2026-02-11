@@ -229,7 +229,7 @@ app.post("/check-duplicate", async(req, res) => {
     }
 });
 
-app.post("/register", verifyFirebaseToken, async(req, res) => {
+app.post("/register", async(req, res) => {
     const data = req.body;
 
     const requiredFields = [
