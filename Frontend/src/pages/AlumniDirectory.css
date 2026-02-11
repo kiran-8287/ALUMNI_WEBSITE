@@ -1,49 +1,155 @@
 :root {
-  --primary-color: #f4a300;
-  --bg-color: #fff8f0;
+    --primary-color: #f4a300;
+    --bg-color: #fff8f0;
+    --card-bg: #ffffff;
+    --text-color: #333;
+    --border-color: #e6e6e6;
 }
+
+
+/* PAGE WRAPPER */
+
+.alumni-page {
+    min-height: 100vh;
+    background: #fafafa;
+    padding-top: 80px;
+    /* z-index: 10000; */
+}
+
+
+/* FILTER SECTION */
+
+.filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 1200px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.filter-container select,
+.filter-container input {
+    flex: 1 1 180px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.filter-container select:focus,
+.filter-container input:focus {
+    border-color: var(--primary-color);
+}
+
+
+/* SEARCH BUTTON */
+
+.filter-container button {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background-color: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.filter-container button:hover {
+    background-color: #d98f00;
+    transform: translateY(-1px);
+}
+
+
+/* ALUMNI GRID */
 
 .alumni-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px; 
-  margin-top: 30px;
-  padding: 0 20px 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 30px;
+    padding: 0 20px 40px;
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+
+/* ALUMNI CARD */
+
 .alumni-card {
-  background-color: var(--bg-color);
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    border-top: 4px solid var(--primary-color);
 }
 
 .alumni-card:hover {
-  transform: translateY(-4px);
+    transform: translateY(-6px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
 }
+
+
+/* NAME */
 
 .alumni-card h3 {
-  margin-top: 0;
-  color: var(--primary-color);
+    margin: 0 0 10px;
+    color: var(--primary-color);
+    font-size: 1.15rem;
+    font-weight: 700;
 }
+
+
+/* DETAILS */
 
 .alumni-card p {
-  margin: 6px 0;
-  font-size: 0.95rem;
-  color: #333;
+    margin: 6px 0;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    line-height: 1.4;
 }
 
+.alumni-card strong {
+    color: #000;
+}
+
+
+/* LINKEDIN LINK */
+
 .linkedin-link {
-  color: var(--primary-color);
-  text-decoration: underline;
-  display: inline-block;
-  max-width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  vertical-align: middle;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.linkedin-link:hover {
+    text-decoration: underline;
+}
+
+
+/* RESPONSIVE TWEAKS */
+
+@media (max-width: 768px) {
+    .filter-container {
+        padding: 16px;
+    }
+    .alumni-card {
+        padding: 16px;
+    }
 }

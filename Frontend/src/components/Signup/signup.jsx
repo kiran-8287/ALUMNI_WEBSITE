@@ -76,9 +76,14 @@ const SignUpPage = () => {
     }
 
     try {
+  
+
       const response = await fetch('https://alumni-website-v7pq.onrender.com/check-duplicate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
           email: formData.email,
           campusID: formData.campusID,

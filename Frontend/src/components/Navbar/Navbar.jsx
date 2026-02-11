@@ -12,6 +12,7 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileDropdown, setShowMobileDropdown] = useState(false);
   const token = useStore((state) => state.token);
+  const userRole = useStore((state) => state.userRole);
 // const setToken = useStore((state) => state.setToken);
 
   const logout = useStore((state) => state.logout);
@@ -46,11 +47,21 @@ const Navbar = () => {
 
         {token ? (
           <div className="authSection">
-            <Link to="/profile" className="profile-icon">
-              <i className="fas fa-user-circle"></i>
-            </Link>
-            <button onClick={handleLogout} className="logout-button">Logout</button>
+              {userRole === "admin" ? (
+              <Link to="/admin-dashboard" className="profile-icon">
+              <i className="fas fa-user-shield"></i>
+              </Link>
+              ) : (
+              <Link to="/profile" className="profile-icon">
+                <i className="fas fa-user-circle"></i>
+              </Link>
+            )}
+
+            <button onClick={handleLogout} className="logout-button">
+              Logout
+            </button>
           </div>
+
         ) : (
           <Link to="/Verification" className="signin-button">Sign In</Link>
         )}
@@ -77,7 +88,11 @@ const Navbar = () => {
 
         {token ? (
           <>
-            <Link to="/profile" className="ListItem" onClick={() => setShowMenu(false)}>Profile</Link>
+            <Link
+              to={userRole === "admin" ? "/admin-dashboard" : "/profile"}
+              className="ListItem" onClick={() => setShowMenu(false)}
+            >{userRole === "admin" ? "Dashboard" : "Profile"}
+            </Link>
             <div className="ListItem logout-item" onClick={handleLogout}>Logout</div>
           </>
         ) : (

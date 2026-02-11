@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
 import "./AlumniDirectory.css";
-
+import { getAuth} from "firebase/auth"
 const AlumniDirectory = () => {
   const [filters, setFilters] = useState({
     name: "",
@@ -36,18 +36,38 @@ const AlumniDirectory = () => {
       .catch((err) => console.error("Error fetching degrees:", err));
   }, []);
 
-  const handleSearch = () => {
-    fetch(`${BASE_URL}/alumni?${new URLSearchParams(filters).toString()}`)
-      .then((res) => res.json())
-      .then((data) => {
+      const handleSearch = async () => {
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (!user) {
+          console.error("User not logged in");
+          return;
+        }
+
+        const token = await user.getIdToken();
+
+        const res = await fetch(
+          `${BASE_URL}/alumni?${new URLSearchParams(filters).toString()}`,
+          {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json"
+            }
+          }
+        );
+
+        const data = await res.json();
         console.log("Fetched alumni data:", data);
         setAlumniData(Array.isArray(data) ? data : []);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Error fetching alumni:", err);
         setAlumniData([]);
-      });
-  };
+      }
+    };
+
 
   return (
     <div className="alumni-page">

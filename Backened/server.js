@@ -201,7 +201,7 @@ app.post("/check-email", verifyFirebaseToken, async(req, res) => {
 });
 
 
-app.post("/check-duplicate", verifyFirebaseToken, async(req, res) => {
+app.post("/check-duplicate", async(req, res) => {
     const { email, campusID } = req.body;
     if (!email || !campusID)
         return res.status(400).json({ error: "Email and CampusID are required" });

@@ -1,6 +1,6 @@
-import React from "react";
+import {React,useEffect} from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup ,signInWithRedirect,signOut,getRedirectResult} from "firebase/auth";
 import { auth, provider } from "../../firebase/firebaseConfig";
 import useStore from "../../Store";
 import logo from "../../assets/OTP/IIT_PKD_long logo_RGB.jpg";
@@ -18,6 +18,60 @@ const SignIn = () => {
   const setUserEmail = useStore((state) => state.setUserEmail);
   const setTokenId = useStore((state) => state.setTokenId);
   const setUserRole = useStore((state) => state.setUserRole);
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     await signInWithRedirect(auth, provider);
+  //   } catch (error) {
+  //     console.error("Google Redirect Error:", error);
+  //     alert("Authentication failed. Try again.");
+  //   }
+  // };
+
+// useEffect(() => {
+//   const handleRedirectResult = async () => {
+//     try {
+//       const result = await getRedirectResult(auth);
+//       if (!result) {
+//         // console.log()
+//       }; // user just opened page normally
+
+//       const user = result.user;
+//       const tokenId = await user.getIdToken();
+//       setTokenId(tokenId);
+
+//       const res = await fetch(`${BACKEND_URL}/check-email`, {
+//         method: "POST",
+//         headers: {
+//           Authorization: `Bearer ${tokenId}`,
+//         },
+//       });
+
+//       if (!res.ok) throw new Error("Backend failed");
+
+//       const data = await res.json();
+
+//       if (!data.role) {
+//         await signOut(auth);
+//         alert("You are not authorized to access this portal.");
+//         return;
+//       }
+
+//       setToken(true);
+//       setUserEmail(user.email);
+//       setUserRole(data.role);
+
+//       console.log("The role is:", data.role);
+//       navigate("/");
+
+//     } catch (error) {
+//       console.error("Redirect Sign-In Error:", error);
+//       alert("Authentication failed. Try again.");
+//     }
+//   };
+
+//   handleRedirectResult();
+// }, []);
+
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);

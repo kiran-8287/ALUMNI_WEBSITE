@@ -6,7 +6,7 @@ import "./AlumniDirectorySignIn.css";
 import useStore from '../Store';
 
 const AlumniDirectorySignIn = () => {
-  const { token } = useStore();
+  const token = useStore((state)=>state.token);
   
   return (
     <div className="alumni-signin-container">

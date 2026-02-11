@@ -50,7 +50,7 @@ function App() {
           <Route path="/id-card-generator" element={<IDCardGeneratorPage />} />
         <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/AlumniDirectory" element={<AlumniDirectory />} />  </Route>
         <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/profile" element={<AlumniProfile />} />  </Route>
-        <Route element={<PrivateRouteProfile token={user==="admin"}/>}> <Route path="/Dashboard" element={<Admin />} />  </Route>
+        <Route element={<PrivateRouteProfile token={user==="admin"}/>}> <Route path="/admin-dashboard" element={<Admin />} />  </Route>
         {/* <Route path="/Dashboard" element={<Admin />} />   */}
           <Route path="*" element={<NotFoundPage />} />
       </Routes>
