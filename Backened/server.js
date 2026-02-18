@@ -424,7 +424,7 @@ app.patch("/api/profile/", verifyFirebaseToken, async(req, res) => {
         const docId = snapshot.docs[0].id;
 
         // Update document with new data
-        await firestore.collection("students").doc(docId).update(updatedData);
+        await firestore.collection("students").doc(docId).set(updatedData, { merge: true });
 
         res.json({ message: "Profile updated successfully" });
     } catch (err) {
