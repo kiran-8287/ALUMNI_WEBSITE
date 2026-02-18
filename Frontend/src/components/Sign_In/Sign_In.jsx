@@ -1,4 +1,4 @@
-import {React,useEffect} from "react";
+import {React,useEffect,useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithPopup ,signInWithRedirect,signOut,getRedirectResult} from "firebase/auth";
 import { auth, provider } from "../../firebase/firebaseConfig";
@@ -18,6 +18,8 @@ const SignIn = () => {
   const setUserEmail = useStore((state) => state.setUserEmail);
   const setTokenId = useStore((state) => state.setTokenId);
   const setUserRole = useStore((state) => state.setUserRole);
+  const [isLoading, setIsLoading] = useState(false);
+
   // const handleGoogleLogin = async () => {
   //   try {
   //     await signInWithRedirect(auth, provider);
@@ -27,98 +29,109 @@ const SignIn = () => {
   //   }
   // };
 
-// useEffect(() => {
-//   const handleRedirectResult = async () => {
-//     try {
-//       const result = await getRedirectResult(auth);
-//       if (!result) {
-//         // console.log()
-//       }; // user just opened page normally
+  // useEffect(() => {
+  //   const handleRedirectResult = async () => {
+  //     try {
+  //       const result = await getRedirectResult(auth);
+  //       if (!result) {
+  //         // console.log()
+  //       }; // user just opened page normally
 
-//       const user = result.user;
-//       const tokenId = await user.getIdToken();
-//       setTokenId(tokenId);
+  //       const user = result.user;
+  //       const tokenId = await user.getIdToken();
+  //       setTokenId(tokenId);
 
-//       const res = await fetch(`${BACKEND_URL}/check-email`, {
-//         method: "POST",
-//         headers: {
-//           Authorization: `Bearer ${tokenId}`,
-//         },
-//       });
+  //       const res = await fetch(`${BACKEND_URL}/check-email`, {
+  //         method: "POST",
+  //         headers: {
+  //           Authorization: `Bearer ${tokenId}`,
+  //         },
+  //       });
 
-//       if (!res.ok) throw new Error("Backend failed");
+  //       if (!res.ok) throw new Error("Backend failed");
 
-//       const data = await res.json();
+  //       const data = await res.json();
 
-//       if (!data.role) {
-//         await signOut(auth);
-//         alert("You are not authorized to access this portal.");
-//         return;
-//       }
+  //       if (!data.role) {
+  //         await signOut(auth);
+  //         alert("You are not authorized to access this portal.");
+  //         return;
+  //       }
 
-//       setToken(true);
-//       setUserEmail(user.email);
-//       setUserRole(data.role);
+  //       setToken(true);
+  //       setUserEmail(user.email);
+  //       setUserRole(data.role);
 
-//       console.log("The role is:", data.role);
-//       navigate("/");
+  //       console.log("The role is:", data.role);
+  //       navigate("/");
 
-//     } catch (error) {
-//       console.error("Redirect Sign-In Error:", error);
-//       alert("Authentication failed. Try again.");
-//     }
-//   };
+  //     } catch (error) {
+  //       console.error("Redirect Sign-In Error:", error);
+  //       alert("Authentication failed. Try again.");
+  //     }
+  //   };
 
-//   handleRedirectResult();
-// }, []);
+  //   handleRedirectResult();
+  // }, []);
 
   const handleGoogleLogin = async () => {
     try {
+      setIsLoading(true);
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
       const tokenId = await user.getIdToken();
       setTokenId(tokenId);
-    const res = await fetch(`${BACKEND_URL}/check-email`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${tokenId}`,
-      },
-    });
+      const res = await fetch(`${BACKEND_URL}/check-email`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${tokenId}`,
+        },
+      });
 
-    const data = await res.json();
+      const data = await res.json();
 
-    if (!data.role) {
-      await signOut(auth);
-      alert("You are not authorized to access this portal.");
-      return;
-    }
-    //   const idToken = await user.getIdToken();
-    //   setTokenId(idToken);
-    //   setToken(true);
-    //   setUserEmail(user.email);
+      if (!data.role) {
+        await signOut(auth);
+        alert("You are not authorized to access this portal.");
+        return;
+      }
+      //   const idToken = await user.getIdToken();
+      //   setTokenId(idToken);
+      //   setToken(true);
+      //   setUserEmail(user.email);
 
-    //   navigate("/");
-    // } catch (error) {
-    //   console.error("Google Sign-In Error:", error);
-    //   alert("Authentication failed. Try again.");
+      //   navigate("/");
+      // } catch (error) {
+      //   console.error("Google Sign-In Error:", error);
+      //   alert("Authentication failed. Try again.");
       // }
      
       setToken(true);
       setUserEmail(user.email);
       setUserRole(data.role); // "admin" or "alumni"
-      console.log("the role is "+data.role);
+      console.log("the role is " + data.role);
 
       navigate("/");
 
     } catch (error) {
       console.error("Google Sign-In Error:", error);
       alert("Authentication failed. Try again.");
+    } finally {
+      setIsLoading(false);
     }
     
   };
 
   return (
     <div className="otp-signin-page">
+
+      {/* 🔥 LOADING OVERLAY */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+
       <div className="container">
         <div className="signin-card">
 
@@ -131,8 +144,14 @@ const SignIn = () => {
           </div>
 
           <div className="signin-form">
-            <button className="btn btn-primary google-btn" onClick={handleGoogleLogin}>
-              <span>Sign in with Google</span>
+            <button
+              className="btn btn-primary google-btn"
+              onClick={handleGoogleLogin}
+              disabled={isLoading}  // 🔥 prevents double clicks
+            >
+              <span>
+                {isLoading ? "Signing in..." : "Sign in with Google"}
+              </span>
             </button>
 
             <p className="signup-text">
@@ -149,6 +168,6 @@ const SignIn = () => {
       </div>
     </div>
   );
-};
+}
 
 export default SignIn;
