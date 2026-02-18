@@ -191,3 +191,90 @@
         font-size: 0.85rem;
     }
 }
+
+.enhanced-section {
+    padding: 60px 10%;
+    /* background: linear-gradient(135deg, #f5f7fa, #eef2f7); */
+}
+
+.message-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 30px;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.message-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.image-wrapper {
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.enhanced-img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.4s ease;
+}
+
+.message-card:hover .enhanced-img {
+    transform: scale(1.08);
+}
+
+.role-text {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #8b0000;
+    margin-bottom: 6px;
+}
+
+.name-text {
+    font-size: 22px;
+    margin: 0;
+    color: #222;
+}
+
+.profession-text {
+    font-size: 15px;
+    color: #666;
+}
+
+.card-body {
+    margin-top: 15px;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #444;
+}
+
+
+/* Fade-in animation */
+
+.fade-in {
+    animation: fadeUp 0.8s ease forwards;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -5,7 +5,9 @@ import UpdateProfileModal from "./UpdateProfileModal";
 import pic from './profile_pic.png'; // Default profile picture
 import iitpkdlogo from './iitpkdlogo.jpg';
 import iarcell_logo from './iarcell_logo.png';
-import  useStore  from '../../Store';
+import useStore from '../../Store';
+import { getAuth} from "firebase/auth"
+
 
 
 const AlumniProfile = () => {
@@ -14,7 +16,7 @@ const AlumniProfile = () => {
   const [showVerifyModal, setShowVerifyModal] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [verified,setVerified]=useState(false);
-  const email = useStore((state)=>state.userEmail);
+  // const email = useStore((state)=>state.userEmail);
 
   const handleSuccess = () => {
     setShowSuccess(true);
@@ -27,11 +29,11 @@ const AlumniProfile = () => {
   //   setTimeout(() => setVerified(false),3000);
   // }
 
- useEffect(() => {
-  if (email) {
-    fetchProfile();
-  }
-}, [email]);
+//  useEffect(() => {
+//   if (email) {
+//     fetchProfile();
+//   }
+// }, [email]);
 
 // const fetchProfile = () => {
 //   fetch(`https://alumni-website-v7pq.onrender.com/api/profile/${encodeURIComponent(email)}`)
@@ -49,40 +51,90 @@ const AlumniProfile = () => {
 //     })
 //     .catch(err => console.error("Fetch error:", err));
 // };
-const fetchProfile = async () => {
-  try {
-    const auth = (await import("firebase/auth")).getAuth();
-    const user = auth.currentUser;
+useEffect(() => {
+  const auth = getAuth();
 
-    if (!user) throw new Error("User not logged in");
-
-    const token = await user.getIdToken();
-
-    const res = await fetch(
-      "https://alumni-website-v7pq.onrender.com/api/profile",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    if (!res.ok) {
-      const text = await res.text();
-      console.error("Error Response:", text);
-      throw new Error(`HTTP ${res.status}`);
+  const unsubscribe = auth.onAuthStateChanged(async (user) => {
+    if (!user) {
+      console.log("User not logged in");
+      return;
     }
 
-    const data = await res.json();
-    console.log("Fetched profile:", data);
-    setProfile(data);
-  } catch (err) {
-    console.error("Fetch error:", err);
-  }
-};
+    try {
+      const token = await user.getIdToken(true);
+
+      const res = await fetch(
+        "https://alumni-website-v7pq.onrender.com/api/profile",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!res.ok) {
+        const text = await res.text();
+        console.error("Error Response:", text);
+        return;
+      }
+
+      const data = await res.json();
+      setProfile(data);
+
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
+  });
+
+  return () => unsubscribe();
+}, []);
 
 
-  if (!profile) return <p>Loading profile...</p>;
+  
+  
+if (!profile) {
+  return (
+    <div style={{
+      height: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      background: "linear-gradient(135deg, #f5f7fa, #e4ecf7)"
+    }}>
+      <div className="spinner"></div>
+      <p style={{
+        marginTop: "20px",
+        fontSize: "18px",
+        fontWeight: "600",
+        color: "#333"
+      }}>
+        Loading your profile...
+      </p>
+
+      <style>
+        {`
+          .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #ddd;
+            border-top: 5px solid #4CAF50;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+          }
+
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
+    </div>
+  );
+}
+
+  // if (!profile) return <p>Loading profile...</p>;
+
 
   return (
     <>
