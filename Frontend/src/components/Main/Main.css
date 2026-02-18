@@ -10,6 +10,10 @@
     box-sizing: border-box;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 .name {
     display: flex;
     align-items: center;
@@ -276,5 +280,58 @@
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .enhanced-section {
+        padding: 40px 5%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .enhanced-section {
+        padding: 30px 4%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .card-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    .DirectorMessage {
+        padding: 0;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .enhanced-img {
+        width: 110px;
+        height: 110px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .enhanced-img {
+        width: 90px;
+        height: 90px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .message-card {
+        padding: 20px 15px;
+    }
+    .card-body {
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    .name-text {
+        font-size: 18px;
+    }
+    .profession-text {
+        font-size: 13px;
     }
 }
