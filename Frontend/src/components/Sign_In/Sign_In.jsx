@@ -114,6 +114,7 @@ const SignIn = () => {
       console.error("Google Sign-In Error:", error);
       alert("Authentication failed. Try again.");
     }
+    
   };
 
   return (

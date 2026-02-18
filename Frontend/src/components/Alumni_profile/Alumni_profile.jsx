@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import './Alumni_profile.css';
 import UpdateProfileModal from "./UpdateProfileModal";
 // import VerifyEmailModal from "./VerifyEmailModal";
@@ -17,6 +17,19 @@ const AlumniProfile = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [verified,setVerified]=useState(false);
   // const email = useStore((state)=>state.userEmail);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const auth = getAuth();
+// Holds the currently authenticated user
+  const currentUserRef = useRef(null);
+
+  // Tracks which user's profile has already been fetched
+  // Prevents duplicate API calls
+  const lastFetchedUid = useRef(null);
+
+  // Stores AbortController to cancel in-flight requests
+  const abortControllerRef = useRef(null);
 
   const handleSuccess = () => {
     setShowSuccess(true);
@@ -51,43 +64,116 @@ const AlumniProfile = () => {
 //     })
 //     .catch(err => console.error("Fetch error:", err));
 // };
-useEffect(() => {
-  const auth = getAuth();
 
-  const unsubscribe = auth.onAuthStateChanged(async (user) => {
-    if (!user) {
-      console.log("User not logged in");
-      return;
-    }
+  useEffect(() => {
+    /**
+     * Listen to Firebase authentication state changes.
+     * This fires on:
+     * - Login
+     * - Logout
+     * - Token refresh
+     * - User switching
+     */
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
 
-    try {
-      const token = await user.getIdToken(true);
-
-      const res = await fetch(
-        "https://alumni-website-v7pq.onrender.com/api/profile",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!res.ok) {
-        const text = await res.text();
-        console.error("Error Response:", text);
+      // -------------------------
+      // 1️⃣ Handle logout case
+      // -------------------------
+      if (!user) {
+        currentUserRef.current = null;
+        lastFetchedUid.current = null;
+        setProfile(null); // clear stale profile
         return;
       }
 
-      const data = await res.json();
-      setProfile(data);
+      // -------------------------
+      // 2️⃣ Handle user switching
+      // -------------------------
+      if (currentUserRef.current?.uid !== user.uid) {
+        setProfile(null);              // clear old user data
+        lastFetchedUid.current = null; // allow refetch
+      }
 
-    } catch (err) {
-      console.error("Fetch error:", err);
-    }
-  });
+      currentUserRef.current = user;
 
-  return () => unsubscribe();
-}, []);
+      // -------------------------
+      // 3️⃣ Only fetch if modal is open
+      // -------------------------
+      
+
+      // -------------------------
+      // 4️⃣ Prevent duplicate fetch for same user
+      // -------------------------
+      if (lastFetchedUid.current === user.uid) return;
+
+      lastFetchedUid.current = user.uid;
+
+      // -------------------------
+      // 5️⃣ Cancel previous request (avoid race condition)
+      // -------------------------
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      const controller = new AbortController();
+      abortControllerRef.current = controller;
+
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Always get fresh ID token
+        const token = await user.getIdToken();
+
+        const res = await fetch(
+          "https://alumni-website-v7pq.onrender.com/api/profile",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            signal: controller.signal, // attach abort signal
+          }
+        );
+
+        if (!res.ok) {
+          const text = await res.text();
+          throw new Error(text || "Failed to fetch profile");
+        }
+
+        const data = await res.json();
+
+        // -------------------------
+        // 6️⃣ Prevent stale update (race safety)
+        // Only update state if user didn't change mid-request
+        // -------------------------
+        if (currentUserRef.current?.uid === user.uid) {
+          setProfile(data);
+        }
+
+      } catch (err) {
+        // Ignore abort errors (they are intentional)
+        if (err.name !== "AbortError") {
+          console.error("Fetch error:", err);
+          setError("Unable to load profile");
+        }
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    /**
+     * Cleanup:
+     * - Unsubscribe from auth listener
+     * - Abort any in-flight request
+     */
+    return () => {
+      unsubscribe();
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+    };
+
+  }, []); 
 
 
   
@@ -261,7 +347,7 @@ if (!profile) {
           onClose={() => setShowUpdateModal(false)}
           onSuccess={() => {
             handleSuccess();
-            fetchProfile();
+            // fetchProfile();
           }
           }
         />
@@ -327,6 +413,9 @@ if (!profile) {
               <div className="details-grid">
                 <Detail label="Full Name" value={profile.Name} />
                 <Detail label="Email" value={profile.Email} />
+                <Detail label="Gender" value={profile.Gender || "Not provided"} />
+                <Detail label="Date of Birth" value={profile.DateOfBirth || "Not provided"} />
+
                 <Detail label="Contact Number1" value={profile.ContactNumber1} />
                 <Detail label="Contact Number2" value={profile.ContactNumber2} />
                 <Detail label="WhatsApp Number" value={profile.WhatsAppNumber} />
@@ -336,6 +425,8 @@ if (!profile) {
                 <Detail label="Degree Program" value={profile.Degree} />
                 <Detail label="Graduation Year" value={profile.YearOfPassOut} />
                 <Detail label="Hostel" value={profile.Hostel} />
+                <Detail label="Permanent Address" value={profile.PermanentAddress || "Not provided"} />
+
                 <Detail label="Awards" value={profile.Awards} />
               </div>
             </section>
@@ -345,9 +436,23 @@ if (!profile) {
               <div className="details-grid">
                 <Detail label="Job Title" value={profile.Designation || "Not provided"} />
                 <Detail label="Company" value={profile.Organisation || "Not provided"} />
-                <Detail label="Location" value={profile.Current_Location|| "Not provided"} />
+                <Detail label="Location" value={profile.Current_Location || "Not provided"} />
+                <Detail label="Employee Sector" value={profile.EmployeeSector || "Not provided"} />
+                <Detail label="Current CTC" value={profile.CurrentCTC || "Not provided"} />
+
               </div>
             </section>
+            <section className="details-section">
+            <h2 className="section-title">Campus Placement Details</h2>
+            <div className="details-grid">
+              <Detail label="Placed" value={profile.CampusPlacement?.Placed ? "Yes" : "No"} />
+              <Detail label="Company" value={profile.CampusPlacement?.Company || "Not provided"} />
+              <Detail label="Role" value={profile.CampusPlacement?.Role || "Not provided"} />
+              <Detail label="Package" value={profile.CampusPlacement?.Package || "Not provided"} />
+              <Detail label="Year" value={profile.CampusPlacement?.Year || "Not provided"} />
+            </div>
+          </section>
+
           </div>
         </div>
 
