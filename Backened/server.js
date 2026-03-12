@@ -239,7 +239,7 @@ app.post("/register", async(req, res) => {
         "ContactNumber1",
         "WhatsAppNumber",
         "CountryCode",
-        "Deparment",
+        "Department",
         "Degree",
         "YearOfPassOut",
         "Hostel",
