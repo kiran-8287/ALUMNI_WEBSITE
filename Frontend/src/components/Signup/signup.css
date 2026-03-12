@@ -143,16 +143,16 @@ body {
     transform: translateY(0);
 }
 
+
 /* Responsive adjustments */
+
 @media (max-width: 768px) {
     .signup-form-wrapper {
         padding: 1.5rem;
     }
-    
     .signup-header h1 {
         font-size: 1.875rem;
     }
-    
     .signup-container {
         padding: 1rem;
     }
@@ -177,24 +177,115 @@ body {
     color: #adb5bd;
     cursor: not-allowed;
 }
+
 .error-text {
-  color: red;
-  margin-bottom: 1rem;
-  font-weight: 500;
+    color: red;
+    margin-bottom: 1rem;
+    font-weight: 500;
 }
 
 .success-text {
-  color: #2e7d32;
-  background-color: #e8f5e9;
-  border: 1px solid #a5d6a7;
-  padding: 10px;
-  border-radius: 6px;
-  margin-top: 10px;
-  font-weight: 500;
-  animation: fadeIn 0.5s ease-in;
+    color: #2e7d32;
+    background-color: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-weight: 500;
+    animation: fadeIn 0.5s ease-in;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.placement-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* space between fields */
+    margin-top: 20px;
+}
+
+.placement-section h3 {
+    margin-bottom: 10px;
+}
+
+
+/* container */
+
+.phone-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+
+/* label */
+
+.phone-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+
+/* overall phone input container */
+
+.phone-container {
+    width: 100%;
+}
+
+
+/* phone input box */
+
+.phone-input {
+    width: 100% !important;
+    height: 42px !important;
+    border-radius: 6px !important;
+    border: 1px solid #ccc !important;
+    font-size: 14px !important;
+    padding-left: 48px !important;
+    transition: border 0.2s ease;
+}
+
+
+/* focus effect */
+
+.phone-input:focus {
+    border-color: #f4a300 !important;
+    outline: none;
+}
+
+
+/* flag button */
+
+.phone-flag-button {
+    border-radius: 6px 0 0 6px !important;
+    border: 1px solid #ccc !important;
+    border-right: none !important;
+}
+
+.react-tel-input .flag {
+    width: 20px;
+    height: 15px;
+}
+
+.react-tel-input .selected-flag {
+    width: 38px;
+    padding: 0 8px;
+}
+
+.react-tel-input .flag-dropdown {
+    border-radius: 6px 0 0 6px;
+}
+
+.react-tel-input .form-control {
+    height: 42px;
 }

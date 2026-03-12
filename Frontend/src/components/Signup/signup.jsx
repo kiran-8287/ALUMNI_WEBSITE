@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './signup.css';
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
 
 const SignUpPage = () => {
   const [formData, setFormData] = useState({
     campusID: '',
     name: '',
     email: '',
+    gender: '',
+    dob:'',
     contact1: '',
     contact2: '',
     whatsapp: '',
@@ -19,7 +23,17 @@ const SignUpPage = () => {
     location: '',
     organisation: '',
     designation: '',
+    employmentSector: '',
+    currentCTC: '',
+    permanentAddress:'',
     awards: '',
+
+  // campus placement
+  placed: '',
+  placementCompany: '',
+  placementRole: '',
+  placementPackage: '',
+  placementYear: ''
   });
 
   const [departments, setDepartments] = useState([]);
@@ -29,29 +43,48 @@ const SignUpPage = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchMetadata = async () => {
-      try {
-        const [deptRes, degRes, yearRes] = await Promise.all([
-          fetch('https://alumni-website-v7pq.onrender.com/departments'),
-          fetch('https://alumni-website-v7pq.onrender.com/degrees'),
-          fetch('https://alumni-website-v7pq.onrender.com/passout-years')
-        ]);
+  // useEffect(() => {
+  //   const fetchMetadata = async () => {
+  //     try {
+  //       const [deptRes, degRes, yearRes] = await Promise.all([
+  //         fetch('https://alumni-website-v7pq.onrender.com/departments'),
+  //         fetch('https://alumni-website-v7pq.onrender.com/degrees'),
+  //         fetch('https://alumni-website-v7pq.onrender.com/passout-years')
+  //       ]);
 
-        const [deptData, degData, yearData] = await Promise.all([
-          deptRes.json(), degRes.json(), yearRes.json()
-        ]);
+  //       const [deptData, degData, yearData] = await Promise.all([
+  //         deptRes.json(), degRes.json(), yearRes.json()
+  //       ]);
 
-        setDepartments(deptData.map(d => d.Department));
-        setDegrees(degData.map(d => d.Degree));
-        setPassoutYears(yearData.map(y => y.YearOfPassOut));
-      } catch (error) {
-        console.error('Error fetching metadata:', error);
-        setErrorMessage('Failed to load dropdown options. Please try again later.');
-      }
-    };
+  //       setDepartments(deptData.map(d => d.Department));
+  //       setDegrees(degData.map(d => d.Degree));
+  //       setPassoutYears(yearData.map(y => y.YearOfPassOut));
+  //     } catch (error) {
+  //       console.error('Error fetching metadata:', error);
+  //       setErrorMessage('Failed to load dropdown options. Please try again later.');
+  //     }
+  //   };
 
-    fetchMetadata();
+  //   fetchMetadata();
+  // }, []);
+  const BASE_URL = "https://alumni-website-v7pq.onrender.com";
+
+   useEffect(() => {
+ 
+    fetch(`${BASE_URL}/departments`)
+      .then((res) => res.json())
+      .then((data) => setDepartments(data))
+       .catch((err) => console.error("Error fetching departments:", err));
+     
+   fetch(`${BASE_URL}/passout-years`)
+      .then((res) => res.json())
+      .then((data) => setPassoutYears(data))
+      .catch((err) => console.error("Error fetching years:", err));
+
+    fetch(`${BASE_URL}/degrees`)
+      .then((res) => res.json())
+      .then((data) => setDegrees(data))
+      .catch((err) => console.error("Error fetching degrees:", err));
   }, []);
 
   const handleChange = (e) => {
@@ -162,34 +195,110 @@ const SignUpPage = () => {
         <form onSubmit={handleSubmit} className="signup-form-grid">
           <input name="campusID" value={formData.campusID} onChange={handleChange} placeholder="Campus ID" className="signup-input-field" />
           <input name="name" value={formData.name} onChange={handleChange} placeholder="Full Name" className="signup-input-field" />
+          <select name="gender" value={formData.gender} onChange={handleChange} className="signup-select-field">
+          <option value="">Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+          </select>
+
+          <input
+            type="date"
+            name="dob"
+            value={formData.dob}
+            onChange={handleChange}
+            className="signup-input-field"
+            />
+
+
           <input name="email" value={formData.email} onChange={handleChange} type="email" placeholder="Email" className="signup-input-field" />
-          <input name="contact1" value={formData.contact1} onChange={handleChange} placeholder="Contact Number 1" className="signup-input-field" />
-          <input name="contact2" value={formData.contact2} onChange={handleChange} placeholder="Contact Number 2 (optional)" className="signup-input-field" />
-          <input name="whatsapp" value={formData.whatsapp} onChange={handleChange} placeholder="WhatsApp Number" className="signup-input-field" />
-          <input name="countryCode" value={formData.countryCode} onChange={handleChange} placeholder="Country Code (e.g., +91)" className="signup-input-field" />
+          {/* <input name="contact1" value={formData.contact1} onChange={handleChange} placeholder="Contact Number 1" className="signup-input-field" /> */}
+          {/* <input name="contact2" value={formData.contact2} onChange={handleChange} placeholder="Contact Number 2 (optional)" className="signup-input-field" /> */}
+          {/* <input name="whatsapp" value={formData.whatsapp} onChange={handleChange} placeholder="WhatsApp Number" className="signup-input-field" /> */}
+          <div className='phone-field'>
+          <label>Contact Number 1</label>
+          <PhoneInput 
+        
+          country={"in"}
+          value={formData.contact1}
+          onChange={(phone, country) => {
+            setFormData({
+              ...formData,
+              contact1: phone,
+              countryCode: "+" + country.dialCode
+            });
+          }}
+          inputClass="signup-input-field"
+            />
+          </div>
+          
+          <div className='phone-field'>
+
+        <label>Contact Number 2 (optional)</label>
+          <PhoneInput 
+        
+          country={"in"}
+          value={formData.contact2}
+          onChange={(phone, country) => {
+            setFormData({
+              ...formData,
+              contact2: phone,
+              countryCode: "+" + country.dialCode
+            });
+          }}
+          inputClass="signup-input-field"
+            />
+              
+          </div>
+          <div className='phone-field'>
+          
+          <label>WhatsApp Number</label>
+        <PhoneInput
+  country={"in"}
+  value={formData.whatsapp}
+  onChange={(phone, country) => {
+    setFormData({
+      ...formData,
+      whatsapp: phone
+    });
+  }}
+  inputClass="signup-input-field"
+/></div>
+
+
+          {/* <input name="countryCode" value={formData.countryCode} onChange={handleChange} placeholder="Country Code (e.g., +91)" className="signup-input-field" /> */}
           <input name="linkedin" value={formData.linkedin} onChange={handleChange} placeholder="LinkedIn Profile URL" className="signup-input-field" />
 
           {/* Department */}
           <select name="department" value={formData.department} onChange={handleChange} className="signup-select-field">
             <option value="">Select Department</option>
-            {departments.map((dept, idx) => (
-              <option key={idx} value={dept}>{dept}</option>
+            {departments.map((item) => (
+            <option key={item.Deparment} value={item.Deparment}>
+              {item.Deparment}
+            </option>
             ))}
           </select>
 
           {/* Degree */}
           <select name="degree" value={formData.degree} onChange={handleChange} className="signup-select-field">
             <option value="">Select Degree</option>
-            {degrees.map((deg, idx) => (
-              <option key={idx} value={deg}>{deg}</option>
+            {/* <a href="">hakuna</a> */}
+            {degrees.map((item) => (
+              <option key={item.Degree} value={item.Degree}>
+                {item.Degree}
+
+              </option>
             ))}
+            {/* {degrees.map((deg, idx) => (
+              <option key={idx} value={deg}>{deg}</option>
+            ))} */}
           </select>
 
           {/* Passout Year */}
           <select name="passoutYear" value={formData.passoutYear} onChange={handleChange} className="signup-select-field">
             <option value="">Year of Passout</option>
-            {passoutYears.map((year, idx) => (
-              <option key={idx} value={year}>{year}</option>
+            {passoutYears.map((item) => (
+              <option key={item.YearOfPassOut} value={item.YearOfPassOut}>{item.YearOfPassOut}</option>
             ))}
           </select>
 
@@ -205,8 +314,77 @@ const SignUpPage = () => {
           <input name="location" value={formData.location} onChange={handleChange} placeholder="Current Location" className="signup-input-field" />
           <input name="organisation" value={formData.organisation} onChange={handleChange} placeholder="Organisation (optional)" className="signup-input-field" />
           <input name="designation" value={formData.designation} onChange={handleChange} placeholder="Designation (optional)" className="signup-input-field" />
-          <input name="awards" value={formData.awards} onChange={handleChange} placeholder="Awards (optional)" className="signup-input-field" />
+         {/* <div className="form-group"> */}
+        {/* <label>Employee Sector</label> */}
+        <select name="sector"  className="signup-select-field">
+          <option value="">Employee Sector</option>
+          <option value="Private">Private</option>
+          <option value="Government">Government</option>
+          <option value="Startup">Startup</option>
+          <option value="Entrepreneur">Entrepreneur</option>
+          <option value="Higher Studies">Higher Studies</option>
+        </select>
+      {/* </div> */}
 
+
+                  <input
+        name="currentCTC"
+        value={formData.currentCTC}
+        onChange={handleChange}
+        placeholder="Current CTC"
+        className="signup-input-field"
+        />
+            <input
+      name="permanentAddress"
+      value={formData.permanentAddress}
+      onChange={handleChange}
+      placeholder="Permanent Address"
+      className="signup-input-field"
+      />
+
+          <input name="awards" value={formData.awards} onChange={handleChange} placeholder="Awards (optional)" className="signup-input-field" />
+ <div className='placement-section'>
+          <h3 >Campus Placement Details</h3>
+
+          <select name="placed" value={formData.placed} onChange={handleChange} className="signup-select-field">
+          <option value="">Placed through campus?</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+          </select>
+
+          <input
+          name="placementCompany"
+          value={formData.placementCompany}
+          onChange={handleChange}
+          placeholder="Placement Company"
+          className="signup-input-field"
+          />
+
+          <input
+          name="placementRole"
+          value={formData.placementRole}
+          onChange={handleChange}
+          placeholder="Placement Role"
+          className="signup-input-field"
+          />
+
+          <input
+          name="placementPackage"
+          value={formData.placementPackage}
+          onChange={handleChange}
+          placeholder="Package"
+          className="signup-input-field"
+          />
+
+          <input
+          name="placementYear"
+          value={formData.placementYear}
+          onChange={handleChange}
+          placeholder="Placement Year"
+          className="signup-input-field"
+          />
+          </div>
+          <div></div>
           <div>
             <p>Already have an account? <Link to="/Verification" className="link-btn">Sign In</Link></p>
           </div>
