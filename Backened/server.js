@@ -355,7 +355,7 @@ app.get("/degrees", async(_, res) => {
 app.get("/departments", async(_, res) => {
     try {
         const { departments } = await getMetaWithCache();
-        res.json(departments.map((d) => ({ Deparment: d })));
+        res.json(departments.map((d) => ({ Department: d })));
     } catch {
         res.status(500).json({ error: "Internal Server Error" });
     }

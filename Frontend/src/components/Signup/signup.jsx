@@ -100,7 +100,7 @@ const SignUpPage = () => {
       return;
     }
 
-    const required = ['campusID', 'name', 'email', 'contact1', 'whatsapp', 'countryCode', 'department', 'degree', 'passoutYear', 'hostel', 'location'];
+    const required = ['campusID', 'name', 'email', 'contact1', 'whatsapp', 'countryCode', 'department', 'degree', 'passoutYear', 'hostel', 'location','employmentSector','permanentAddress'];
     for (let field of required) {
       if (!formData[field]) {
         setErrorMessage(`Please fill the required field: ${field}`);
@@ -141,6 +141,8 @@ const SignUpPage = () => {
       const firestorePayload = {
         CampusID: formData.campusID,
         Name: formData.name,
+        Gender: formData.gender,
+        DateOfBirth: formData.dob,
         Email: formData.email,
         ContactNumber1: formData.contact1,
         ContactNumber2: formData.contact2 || '',
@@ -154,7 +156,19 @@ const SignUpPage = () => {
         CurrentLocation: formData.location,
         Organisation: formData.organisation || '',
         Designation: formData.designation || '',
+        PermanentAddress: formData.permanentAddress,
+        EmployeeSector: formData.employeeSector,
+CurrentCTC: formData.currentCTC,
         Awards: formData.awards || '',
+        
+CampusPlacement: {
+  Placed: formData.placed === "Yes",
+  Company: formData.placementCompany,
+  Role: formData.placementRole,
+  Package: formData.placementPackage,
+  Year: formData.placementYear
+}
+
       };
 
       try {
@@ -273,8 +287,8 @@ const SignUpPage = () => {
           <select name="department" value={formData.department} onChange={handleChange} className="signup-select-field">
             <option value="">Select Department</option>
             {departments.map((item) => (
-            <option key={item.Deparment} value={item.Deparment}>
-              {item.Deparment}
+            <option key={item.Department} value={item.Department}>
+              {item.Department}
             </option>
             ))}
           </select>
