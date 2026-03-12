@@ -99,6 +99,7 @@ const SignUpPage = () => {
       setErrorMessage('Campus ID must be exactly 9 digits');
       return;
     }
+    
 
     const required = ['campusID', 'name', 'email', 'contact1', 'whatsapp', 'countryCode', 'department', 'degree', 'passoutYear', 'hostel', 'location','employmentSector','permanentAddress'];
     for (let field of required) {
@@ -157,7 +158,7 @@ const SignUpPage = () => {
         Organisation: formData.organisation || '',
         Designation: formData.designation || '',
         PermanentAddress: formData.permanentAddress,
-        EmployeeSector: formData.employeeSector,
+        EmployeeSector: formData.employmentSector,
 CurrentCTC: formData.currentCTC,
         Awards: formData.awards || '',
         
@@ -330,7 +331,7 @@ CampusPlacement: {
           <input name="designation" value={formData.designation} onChange={handleChange} placeholder="Designation (optional)" className="signup-input-field" />
          {/* <div className="form-group"> */}
         {/* <label>Employee Sector</label> */}
-        <select name="sector"  className="signup-select-field">
+        <select name="employmentSector"  className="signup-select-field" value={formData.employmentSector} onChange={handleChange}>
           <option value="">Employee Sector</option>
           <option value="Private">Private</option>
           <option value="Government">Government</option>
