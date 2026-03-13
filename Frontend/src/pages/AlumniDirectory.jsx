@@ -16,8 +16,11 @@ const AlumniDirectory = () => {
   const [years, setYears] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [degrees, setDegrees] = useState([]);
+  const [cursor, setCursor] = useState(null);
+  const [loadingMore, setLoadingMore] = useState(false);
 
   const BASE_URL = "https://alumni-website-v7pq.onrender.com";
+
  useEffect(() => {
   const cached = localStorage.getItem("alumniMetadata");
 
@@ -81,13 +84,56 @@ const AlumniDirectory = () => {
         );
 
         const data = await res.json();
-        // console.log("Fetched alumni data:", data);   //this is to check the data fetched
-        setAlumniData(Array.isArray(data) ? data : []);
+        console.log("Fetched alumni data:", data);   //this is to check the data fetched
+        // setAlumniData(Array.isArray(data) ? data : []);
+        setAlumniData(data.results || []);
+        setCursor(data.nextCursor)
       } catch (err) {
         console.error("Error fetching alumni:", err);
         setAlumniData([]);
+        }
+        
+  };
+  const loadMore = async () => {
+    if (!cursor) return;
+    try {
+      setLoadingMore(true);
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    if (!user) {
+      console.error("User not logged in");
+      return;
+    }
+
+    const token = await user.getIdToken();
+
+    const res = await fetch(
+      `${BASE_URL}/alumni?${new URLSearchParams({
+        ...filters,
+        lastDocId: cursor
+      }).toString()}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       }
-    };
+    );
+
+    const data = await res.json();
+
+    setAlumniData((prev) => [...prev, ...(data.results || [])]);
+    setCursor(data.nextCursor);
+  } catch (err) {
+    console.error("Error loading more alumni:", err);
+    }
+    finally {
+      setLoadingMore(false);
+    }
+};
+
 
 
   return (
@@ -175,6 +221,25 @@ const AlumniDirectory = () => {
 
         ))}
       </div>
+
+        {/* Load More Button */}
+
+      {cursor && (
+
+        <div className="load-more-container">
+
+          <button
+            onClick={loadMore}
+            className="load-more-btn"
+            disabled={loadingMore}
+          >
+            {loadingMore ? "Loading..." : "Load More"}
+          </button>
+
+        </div>
+
+      )}
+
       <Footer />
     </div>
   );

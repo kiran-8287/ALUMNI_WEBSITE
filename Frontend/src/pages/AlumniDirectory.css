@@ -153,3 +153,31 @@
         padding: 16px;
     }
 }
+
+.load-more-container {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+}
+
+.load-more-btn {
+    padding: 12px 28px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background-color: #004aad;
+    color: white;
+    transition: all 0.25s ease;
+}
+
+.load-more-btn:hover {
+    background-color: #00357a;
+    transform: translateY(-2px);
+}
+
+.load-more-btn:disabled {
+    background-color: #8aa4d6;
+    cursor: not-allowed;
+}
