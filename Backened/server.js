@@ -390,7 +390,14 @@ app.get("/alumni", verifyFirebaseToken, async(req, res) => {
         if (degree) query = query.where("Degree", "==", degree);
         if (department) query = query.where("Department", "==", department);
 
+        if (name) {
+            query = query
+                .orderBy("Name")
+                .startAt(name)
+                .endAt(name + "\uf8ff");
+        }
         query = query.limit(50);
+
 
         if (lastDocId) {
             const lastDoc = await firestore
@@ -416,6 +423,7 @@ app.get("/alumni", verifyFirebaseToken, async(req, res) => {
                 (alumni) => alumni.Name && alumni.Name.toLowerCase().includes(lower),
             );
         }
+
         const nextCursor =
             snapshot.docs.length > 0 ?
             snapshot.docs[snapshot.docs.length - 1].id :
