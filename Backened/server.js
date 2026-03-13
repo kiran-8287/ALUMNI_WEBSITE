@@ -384,34 +384,47 @@ app.get("/alumni", verifyFirebaseToken, async(req, res) => {
 
         let query = firestore.collection("students");
 
-        if (campusID) {
-            query = query.where("CampusID", "==", campusID);
-        }
-        if (yearOfPassOut) {
+        if (campusID) query = query.where("CampusID", "==", campusID);
+        if (yearOfPassOut)
             query = query.where("YearOfPassOut", "==", yearOfPassOut);
-        }
-        if (degree) {
-            query = query.where("Degree", "==", degree);
-        }
-        if (department) {
-            query = query.where("Deparment", "==", department);
+        if (degree) query = query.where("Degree", "==", degree);
+        if (department) query = query.where("Department", "==", department);
+
+        query = query.limit(50);
+
+        if (lastDocId) {
+            const lastDoc = await firestore
+                .collection("students")
+                .doc(lastDocId)
+                .get();
+            if (lastDoc.exists) {
+                query = query.startAfter(lastDoc);
+            }
         }
 
         const snapshot = await query.get();
 
-        let results = [];
+        let results = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
 
-        snapshot.forEach((doc) => {
-            const data = doc.data();
-            if (name) {
-                if (data.Name && data.Name.toLowerCase().includes(name.toLowerCase())) {
-                    results.push({ id: doc.id, ...data });
-                }
-            } else {
-                results.push({ id: doc.id, ...data });
-            }
+        // Name filtering (client-side)
+        if (name) {
+            const lower = name.toLowerCase();
+            results = results.filter(
+                (alumni) => alumni.Name && alumni.Name.toLowerCase().includes(lower),
+            );
+        }
+        const nextCursor =
+            snapshot.docs.length > 0 ?
+            snapshot.docs[snapshot.docs.length - 1].id :
+            null;
+
+        res.json({
+            results,
+            nextCursor,
         });
-        res.json(results);
     } catch (error) {
         console.error("Error fetching alumni:", error);
         res.status(500).json({ error: "Internal Server Error" });
