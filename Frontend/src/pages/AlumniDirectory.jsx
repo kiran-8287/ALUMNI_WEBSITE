@@ -18,23 +18,44 @@ const AlumniDirectory = () => {
   const [degrees, setDegrees] = useState([]);
 
   const BASE_URL = "https://alumni-website-v7pq.onrender.com";
+ useEffect(() => {
+  const cached = localStorage.getItem("alumniMetadata");
 
-  useEffect(() => {
-    fetch(`${BASE_URL}/passout-years`)
-      .then((res) => res.json())
-      .then((data) => setYears(data))
-      .catch((err) => console.error("Error fetching years:", err));
+  if (cached) {
+    const data = JSON.parse(cached);
+    setYears(data.years);
+    setDepartments(data.departments);
+    setDegrees(data.degrees);
+    return;
+  }
 
-    fetch(`${BASE_URL}/departments`)
-      .then((res) => res.json())
-      .then((data) => setDepartments(data))
-      .catch((err) => console.error("Error fetching departments:", err));
+  fetch(`${BASE_URL}/alumni-metadata`)
+    .then((res) => res.json())
+    .then((data) => {
+      localStorage.setItem("alumniMetadata", JSON.stringify(data));
+      setYears(data.years);
+      setDepartments(data.departments);
+      setDegrees(data.degrees);
+    });
+}, []);
 
-    fetch(`${BASE_URL}/degrees`)
-      .then((res) => res.json())
-      .then((data) => setDegrees(data))
-      .catch((err) => console.error("Error fetching degrees:", err));
-  }, []);
+
+  // useEffect(() => {
+  //   fetch(`${BASE_URL}/passout-years`)
+  //     .then((res) => res.json())
+  //     .then((data) => setYears(data))
+  //     .catch((err) => console.error("Error fetching years:", err));
+
+  //   fetch(`${BASE_URL}/departments`)
+  //     .then((res) => res.json())
+  //     .then((data) => setDepartments(data))
+  //     .catch((err) => console.error("Error fetching departments:", err));
+
+  //   fetch(`${BASE_URL}/degrees`)
+  //     .then((res) => res.json())
+  //     .then((data) => setDegrees(data))
+  //     .catch((err) => console.error("Error fetching degrees:", err));
+  // }, []);
 
       const handleSearch = async () => {
       try {
@@ -127,7 +148,9 @@ const AlumniDirectory = () => {
       <div className="alumni-list">
         {alumniData.map((alumni, index) => (
           <div key={index} className="alumni-card">
-        <h3>{alumni.Name}</h3>
+            <h3>{alumni.Name}</h3>
+        <p><strong>Campus ID:</strong> {alumni.CampusID}</p>
+            
         <p><strong>Email:</strong> {alumni.Email}</p>
 
         {alumni.LinkedinProfile && (

@@ -334,6 +334,21 @@ async function getMetaWithCache() {
     }
 }
 
+app.get("/alumni-metadata", async(_, res) => {
+    try {
+        const { years, degrees, departments } = await getMetaWithCache();
+
+        res.json({
+            years: years.map((y) => ({ YearOfPassOut: y })),
+            degrees: degrees.map((d) => ({ Degree: d })),
+            departments: departments.map((d) => ({ Department: d })),
+        });
+    } catch {
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
+
+
 app.get("/passout-years", async(_, res) => {
     try {
         const { years } = await getMetaWithCache();
