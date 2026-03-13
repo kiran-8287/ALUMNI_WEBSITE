@@ -18,7 +18,7 @@ const Image_swap = ({ setimgcount, playstatus, imgcount, setplaystatus }) => {
             <li onClick={() => setimgcount(1)} className={imgcount === 1 ? 'dot-orange' : 'dot-white'}></li>
             <li onClick={() => setimgcount(2)} className={imgcount === 2 ? 'dot-orange' : 'dot-white'}></li>
           <li onClick={() => setimgcount(3)} className={imgcount === 3 ? 'dot-orange' : 'dot-white'}></li>
-          <li onClick={() => setimgcount(4)} className={imgcount === 4 ? 'dot-orange' : 'dot-white'}></li>
+          {/* <li onClick={() => setimgcount(4)} className={imgcount === 4 ? 'dot-orange' : 'dot-white'}></li> */}
           
           </ul>
         </div>

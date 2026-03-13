@@ -60,7 +60,7 @@ const AlumniDirectory = () => {
         );
 
         const data = await res.json();
-        console.log("Fetched alumni data:", data);
+        // console.log("Fetched alumni data:", data);   //this is to check the data fetched
         setAlumniData(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Error fetching alumni:", err);
@@ -91,8 +91,8 @@ const AlumniDirectory = () => {
         >
           <option value="">Select Department</option>
           {departments.map((item) => (
-            <option key={item.Deparment} value={item.Deparment}>
-              {item.Deparment}
+            <option key={item.Department} value={item.Department}>
+              {item.Department}
             </option>
           ))}
         </select>
@@ -130,24 +130,24 @@ const AlumniDirectory = () => {
         <h3>{alumni.Name}</h3>
         <p><strong>Email:</strong> {alumni.Email}</p>
 
-        {alumni.LikedlnProfile && (
+        {alumni.LinkedinProfile && (
           <p>
             <strong>LinkedIn:</strong>{" "}
             <a
-              href={alumni.LikedlnProfile}
+              href={alumni.LinkedinProfile}
               target="_blank"
               rel="noopener noreferrer"
               className="linkedin-link"
             >
-              {alumni.LikedlnProfile}
+              {alumni.LinkedinProfile}
             </a>
           </p>
         )}
-
+        {/* {alumni.Curr} */}
         <p><strong>Current Location:</strong> {alumni.Current_Location}</p>
         <p><strong>Organisation:</strong> {alumni.Organisation}</p>
         <p><strong>Designation:</strong> {alumni.Designation}</p>
-        <p><strong>Awards:</strong> {alumni.Awards}</p>
+        {/* <p><strong>Awards:</strong> {alumni.Awards}</p> */}
       </div>
 
         ))}

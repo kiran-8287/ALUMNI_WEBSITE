@@ -168,7 +168,7 @@ const UpdateProfileModal = ({ isOpen, onClose, onSuccess }) => {
               ContactNumber2: formData.get("contact2"),
               WhatsAppNumber: formData.get("whatsapp"),
               CountryCode: formData.get("country"),
-              LikedInProfile: formData.get("linkedin"),
+              LinkedinProfile: formData.get("linkedin"),
               Hostel: formData.get("hostel"),
               Awards: formData.get("awards"),
               Designation: formData.get("designation"),
@@ -318,7 +318,7 @@ const UpdateProfileModal = ({ isOpen, onClose, onSuccess }) => {
 
             <div className="form-group">
               <label>LinkedIn Profile *</label>
-              <input name="linkedin" type="text" defaultValue={profile.LikedInProfile || ""} required />
+              <input name="linkedin" type="text" defaultValue={profile.LinkedinProfile || ""} required />
             </div>
 
             <div className="form-group">

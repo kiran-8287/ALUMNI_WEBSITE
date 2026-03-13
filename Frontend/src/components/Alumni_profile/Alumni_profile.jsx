@@ -6,6 +6,7 @@ import pic from './profile_pic.png'; // Default profile picture
 import iitpkdlogo from './iitpkdlogo.jpg';
 import iarcell_logo from './iarcell_logo.png';
 import useStore from '../../Store';
+import Navbar from '../Navbar/Navbar';
 import { getAuth} from "firebase/auth"
 
 
@@ -368,12 +369,14 @@ if (!profile) {
 
         {/* // Top Header with Logos */}
         <div>
-          <header className="top-header">
-            <div className="header-logos">
-              <img src={iitpkdlogo} alt="IIT Palakkad Logo" className="logo-effect iit-logo" />
-              <img src={iarcell_logo} alt="IAR Cell Logo" className="logo-effect iar-logo" />
-            </div>
-          </header>
+          <Navbar />
+
+          {/* <header className="top-header"> */}
+            {/* <div className="header-logos"> */}
+              {/* <img src={iitpkdlogo} alt="IIT Palakkad Logo" className="logo-effect iit-logo" /> */}
+              {/* <img src={iarcell_logo} alt="IAR Cell Logo" className="logo-effect iar-logo" /> */}
+            {/* </div> */}
+          {/* </header> */}
 
           {/* Page Header Section */}
           <section className="page-header">
@@ -420,8 +423,8 @@ if (!profile) {
                 <Detail label="Contact Number2" value={profile.ContactNumber2} />
                 <Detail label="WhatsApp Number" value={profile.WhatsAppNumber} />
                 <Detail label="Country Code" value={profile.CountryCode} />
-                <Detail label="LinkedIn Profile" value={profile.LikedInProfile} />
-                <Detail label="Department" value={profile.Deparment} />
+                <Detail label="LinkedIn Profile" value={profile.LinkedinProfile} />
+                <Detail label="Department" value={profile.Department} />
                 <Detail label="Degree Program" value={profile.Degree} />
                 <Detail label="Graduation Year" value={profile.YearOfPassOut} />
                 <Detail label="Hostel" value={profile.Hostel} />
