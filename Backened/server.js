@@ -380,7 +380,7 @@ app.get("/departments", async(_, res) => {
 //Filters: name, campusID, yearOfPassOut, degree, department
 app.get("/alumni", verifyFirebaseToken, async(req, res) => {
     try {
-        const { name, campusID, yearOfPassOut, degree, department } = req.query;
+        const { name, campusID, yearOfPassOut, degree, department, lastDocId } = req.query;
 
         let query = firestore.collection("students");
 
