@@ -44,25 +44,46 @@
         }
     ],
     "testimonials": [{
-            "message": "IIT Palakkad gave me the confidence to pursue my dreams. The friendships and mentorship I found here have shaped my career and life in ways I never imagined.",
-            "name": "Ashwini Kumar",
-            "year": "B.Tech CSE, 2021",
-            "job": "Software Engineer, Google",
-            "image": "/assets/club/ashwini.jpg"
+            "message": "It was a privilege to be a part of the IIT Palakkad community. My two-year journey in the M.Tech. program was both enriching and transformative, providing me with the confidence and skills required to perform effectively in diverse situations and to realize my full potential. During my time on campus, I had the opportunity to interact with many remarkable individuals, including my friends and batchmates, whose perspectives and values greatly influenced my way of thinking. These interactions helped shape my understanding of life, the importance of empathy, and the value of caring for and supporting others.",
+            "name": "Vikram Ray",
+            "year": "M.Tech Geotechnical Engineering, 2025",
+            "job": "",
+            "image": ""
         },
         {
-            "message": "The vibrant campus life and academic rigor at IIT Palakkad prepared me for every challenge. I cherish the memories and am proud to be part of this community.",
-            "name": "Ruthvi Sharma",
-            "year": "B.Tech EE, 2020",
-            "job": "Data Scientist, Microsoft",
-            "image": "/assets/club/ruthvi.jpg"
+            "message": "My journey at the institute was full with some of the best memories of my life.",
+            "name": "Ayush Kumar",
+            "year": "B.Tech Civil Engineering, 2025",
+            "job": "",
+            "image": ""
         },
         {
-            "message": "From late-night study sessions to cultural fests, every moment at IIT Palakkad was special. The support from peers helped me grow both personally and professionally.",
-            "name": "Sai Kiran",
-            "year": "B.Tech CSE, 2019",
-            "job": "Product Manager, Amazon",
-            "image": "/assets/club/sai_kiran.jpg"
+            "message": "Thankful to the institute for all the opportunities provided.",
+            "name": "Shabana K M",
+            "year": "PHD CSE, 2025",
+            "job": "",
+            "image": ""
+        },
+        {
+            "message": "As a student at IIT Palakkad, I got to know about how higher education ought to be pursued through the professors and seniors. The serene yet vibrant ambience of the developing campus offers the perfect balance for focused studies and joyful student life. The curriculum is balanced with strong theoretical foundations and hands-on learning. The students get good placements and internships even during these highly competitive and difficult times due to the coordinated efforts of several sections. I am confident that the foundation laid here will take each student to higher echelons of leadership in various fields.",
+            "name": "Neeraj Krishna N",
+            "year": "B.Tech(Hons) CSE, 2025",
+            "job": "",
+            "image": ""
+        },
+        {
+            "message": "The Ph.D. journey at IIT Palakkad shaped me to being a critical thinker and a confident researcher. I am grateful for the immense support provided by my doctoral committee and department.",
+            "name": "Madhavanunni A.N",
+            "year": "PHD Electrical Engineering, 2025",
+            "job": "",
+            "image": ""
+        },
+        {
+            "message": "My time at the institute played an important role in shaping my technical foundation and problem-solving mindset. The learning environment encouraged curiosity, discipline, and continuous improvement. I am grateful for the support and opportunities the institute provided, which helped me grow both professionally and personally. I encourage current students to stay curious, practice consistently, and make the most of the resources and mentorship available.",
+            "name": "Chinni Varaha Narasimha Rao",
+            "year": "B.Tech Electrical Engineering, 2025",
+            "job": "",
+            "image": ""
         }
     ]
 }

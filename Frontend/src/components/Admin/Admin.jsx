@@ -4,7 +4,7 @@ import {db} from '../../firebase/firebaseConfig'
 import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import './Admin.css';
 import iarcell from '../../assets/iar.png';
-
+import { getSelectedAlumni,exportToCSV,exportToExcel,exportToPDF } from '../../utils/exportUtils';
 
 
 // const app = initializeApp(firebaseConfig);
@@ -19,6 +19,9 @@ const AdminDashboard = () => {
   const [selectedDepartment, setSelectedDepartment] = useState('All Departments');
   const [selectedYear, setSelectedYear] = useState('All Years');
   const [selectedStatus, setSelectedStatus] = useState("all");
+  const [selectedSector, setselectedSector] = useState("All");
+  const [placementFilter, setplacemnetFilter] = useState("all");
+  const [ctcRange, setCtcRange] = useState({ min: "", max: "" });
   const [currentPage, setCurrentPage] = useState(1);
   const [recordsPerPage] = useState(10);
   const [selectedRows, setSelectedRows] = useState(new Set());
@@ -33,6 +36,34 @@ const AdminDashboard = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
+
+  // stats
+
+
+
+  const totalAlumni = alumniData.length;
+
+  const verifiedCount = alumniData.filter(a => a.verified).length;
+
+    const avgCTC =
+    alumniData.length > 0
+      ? (
+          alumniData.reduce((sum, a) => sum + Number(a.CTC || 0), 0) /
+          alumniData.length
+        ).toFixed(2)
+      : 0;
+  
+  const placedCount = alumniData.filter(
+    a => a.CampusPlacement?.Placed
+  ).length;
+
+  const sectorStats = alumniData.reduce((acc, alumni) => {
+    const sector = alumni.EmployeeSector || "Unknown";
+    acc[sector] = (acc[sector] || 0) + 1;
+    return acc;
+  }, {});
+
+// -------------------------------------------
 
   useEffect(() => {
     const fetchMetadata = async () => {
@@ -265,15 +296,38 @@ const AdminDashboard = () => {
     );
     const matchesDept = selectedDepartment === 'All Departments' || 
       alumni.Department === selectedDepartment;
+    
     const matchesYear = selectedYear === 'All Years' || 
       alumni.YearOfPassOut === selectedYear;
     
     const matchStatus =
       selectedStatus === "all" ||
-      alumni.verified === (selectedStatus==="true");
+      alumni.verified === (selectedStatus === "true");
     
-    return matchesSearch && matchesDept && matchesYear && matchStatus;
+    const matchesSector =
+      selectedSector === "All" ||
+      alumni.EmployeeSector === selectedSector;
+    
+    return matchesSearch && matchesDept && matchesYear && matchStatus && matchesSector;
   });
+
+  // export the selected alumni (excel,csv ,pdf files)
+
+  const handleExportCSV = () => {
+    const data = getSelectedAlumni(alumniData, selectedRows);
+    exportToCSV(data);
+  };
+
+  const handleExportExcel = () => {
+    const data = getSelectedAlumni(alumniData, selectedRows);
+    exportToExcel(data);
+  };
+
+  const handleExportPDF = () => {
+    const data = getSelectedAlumni(alumniData, selectedRows);
+    exportToPDF(data);
+  };
+  
 
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
@@ -400,7 +454,7 @@ const AdminDashboard = () => {
                 </svg>
               )}
             </button>
-            <img src={iarcell} alt="IAR Cell IIT Palakkad" className="iarcell-logo" />
+            <a href="/"><img src={iarcell} alt="IAR Cell IIT Palakkad" className="iarcell-logo" /></a>
           </div>
         </header>
 
@@ -415,45 +469,64 @@ const AdminDashboard = () => {
         {/* Action Buttons */}
         <div className="action-bar">
           <div className="action-buttons">
-            <button className="btn btn-primary" onClick={() => openModal('add')}>
-              <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="12" y1="5" x2="12" y2="19"/>
-                <line x1="5" y1="12" x2="19" y2="12"/>
-              </svg>
-              Add Alumni
-            </button>
-            <button 
-              className="btn btn-secondary" 
-              onClick={() => {
-                if (selectedRows.size === 1) {
-                  const selected = alumniData.find(a => a.id === Array.from(selectedRows)[0]);
-                  openModal('edit', selected);
-                } else {
-                  showNotification('Please select exactly one alumni to edit', 'error');
-                }
-              }}
-              disabled={selectedRows.size !== 1}
-            >
-              <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-              </svg>
-              Update Selected
-            </button>
-            <button 
-              className="btn btn-danger" 
-              onClick={deleteSelected}
-              disabled={selectedRows.size === 0}
-            >
-              <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="3,6 5,6 21,6"/>
-                <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"/>
-                <line x1="10" y1="11" x2="10" y2="17"/>
-                <line x1="14" y1="11" x2="14" y2="17"/>
-              </svg>
-              {selectedRows.size > 0 ? `Delete (${selectedRows.size})` : 'Delete'}
-            </button>
-          </div>
+            {/* LEFT SIDE ACTIONS */}
+    <button className="btn btn-primary" onClick={() => openModal('add')}>
+      <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Add Alumni
+    </button>
+
+    <button
+      className="btn btn-secondary"
+      onClick={() => {
+        if (selectedRows.size === 1) {
+          const selected = alumniData.find(a => a.id === Array.from(selectedRows)[0]);
+          openModal('edit', selected);
+        } else {
+          showNotification('Please select exactly one alumni to edit', 'error');
+        }
+      }}
+      disabled={selectedRows.size !== 1}
+    >
+      <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+      </svg>
+      Update Selected
+    </button>
+
+    <button
+      className="btn btn-danger"
+      onClick={deleteSelected}
+      disabled={selectedRows.size === 0}
+    >
+      <svg className="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <polyline points="3,6 5,6 21,6"/>
+        <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"/>
+        <line x1="10" y1="11" x2="10" y2="17"/>
+        <line x1="14" y1="11" x2="14" y2="17"/>
+      </svg>
+      {selectedRows.size > 0 ? `Delete (${selectedRows.size})` : 'Delete'}
+    </button>
+</div><div className='action-buttons'>
+    
+    {/* EXPORT BUTTONS (same style now) */}
+    <button className="btn btn-primary" onClick={handleExportCSV}>
+      CSV
+    </button>
+
+    <button className="btn btn-secondary" onClick={handleExportExcel}>
+      Excel
+    </button>
+
+    <button className="btn btn-primary" onClick={handleExportPDF}>
+      PDF
+    </button>
+
+  </div>
+          {/* FILTERS */}
           <div className="table-controls">
             <select 
               className="filter-select" 
@@ -465,6 +538,21 @@ const AdminDashboard = () => {
                 <option key={dept} value={dept}>{dept}</option>
               ))}
             </select>
+            <select
+              className='filter-select'
+            value={setselectedSector}
+            onChange={(e) => setselectedSector(e.target.value)}>
+              
+              <option value="All">All Sectors</option>
+              <option value="Private">Private</option>
+              <option value="Government">Government</option>
+              <option value="Startup">Startup</option>
+              <option value="Entrepreneur">Entrepreneur</option>
+              <option value="Higher Studies">Higher Studies</option>
+
+            </select>
+
+
             <select 
               className="filter-select" 
               value={selectedYear}
@@ -488,7 +576,40 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Alumni Table */}
+        
+        {/* ----------------------stats------------------------ */}
+
+          <div className="stats-grid">
+          <div className="stat-card">
+            <h3>Total Alumni</h3>
+            <p>{totalAlumni}</p>
+          </div>
+
+          <div className="stat-card verified">
+            <h3>Verified</h3>
+            <p>{verifiedCount}</p>
+          </div>
+
+          {/* <div className="stat-card ctc">
+            <h3>Average CTC</h3>
+            <p>₹{avgCTC} LPA</p>
+          </div> */}
+          <div className="stat-card sector">
+          <h3>Sector Distribution</h3>
+
+          <div className="sector-list">
+            {Object.entries(sectorStats).map(([sector, count]) => (
+              <div key={sector} className="sector-row">
+                <span>{sector}</span>
+                <span className="sector-count">{count}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        </div>
+       
+
+        {/* ----------------------------- Alumni Table */ }
         <div className="table-container">
           <div className="table-wrapper">
             <table className="alumni-table">

@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin: 5rem auto;
+    margin: 1rem auto;
     padding: 1rem;
     background-color: transparent;
     /* min-height: 100vh;  */
@@ -113,6 +113,7 @@ body {
 .read-more-btn {
     background: linear-gradient(135deg, #0975a8, #075e8a);
     color: white;
+    color: #FFD700;
     border: none;
     padding: 0.8rem 2rem;
     border-radius: 25px;
@@ -121,20 +122,22 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     margin: 1rem 0;
-    box-shadow: 0 4px 15px rgba(9, 117, 168, 0.3);
+    /* box-shadow: 0 4px 15px rgba(9, 117, 168, 0.3); */
+    box-shadow: 0 2px 6px rgba(243, 156, 18, 0.2);
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .read-more-btn:hover {
-    background: linear-gradient(135deg, #075e8a, #054d75);
+    /* background: linear-gradient(135deg, #075e8a, #054d75); */
+    /* background: linear-gradient(135deg, #e67e22, #d35400); */
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(9, 117, 168, 0.4);
+    /* box-shadow: 0 6px 20px rgba(9, 117, 168, 0.4); */
 }
 
 .read-more-btn:active {
     transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(9, 117, 168, 0.3);
+    /* box-shadow: 0 2px 10px rgba(9, 117, 168, 0.3); */
 }
 
 
@@ -205,7 +208,7 @@ body {
     background: #ffffff;
     border-radius: 18px;
     padding: 30px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     transition: all 0.3s ease;
 }

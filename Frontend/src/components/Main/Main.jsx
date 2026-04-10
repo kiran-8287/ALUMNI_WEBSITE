@@ -38,7 +38,9 @@ function Main() {
 
         </div>
       ))}
-    </section>
+      </section>
+     <TestimonialSlider />
+      
   </>
 );
 
