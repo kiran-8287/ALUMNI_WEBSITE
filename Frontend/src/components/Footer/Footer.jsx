@@ -36,7 +36,7 @@ function Footer() {
           <div className="footer-section">
             <h3>CONTACT US</h3>
             {/* <p>F1 Cabin, AGORA Building,NILA Campus IIT Palakkad Kerala 678623</p> */}
-              <p  className="address_data">First Floor (Right Wing), </p>
+              <p  className="address_data">Second Floor (Left Wing), </p>
               <p className="address_data">  Dr. APJ Abdul Kalam Block,</p>
               {/* <p className="address_data">Sahyadri Campus,  </p> */}
               <p className="address_data">Indian Institute of Technology Palakkad, </p>
