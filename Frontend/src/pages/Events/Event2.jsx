@@ -7,12 +7,12 @@ import Event2js from '../../components/Eventsjs/Event2js'
 const Event2 = () => {
   return (
     <div>
-      <Navbar/>
-      
+      <Navbar />
 
-<Event2js/>
 
-      <Footer/></div>
+      <Event2js />
+
+      <Footer /></div>
   )
 }
 

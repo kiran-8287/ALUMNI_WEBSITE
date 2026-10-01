@@ -100,7 +100,7 @@
 }
 
 .event-card:hover {
-    transform: translateY(-12px);
+    transform: translateY(-3px);
     box-shadow: 0 20px 50px rgba(242, 169, 0, 0.25);
     border-color: rgba(242, 169, 0, 0.3);
 }
@@ -124,11 +124,12 @@
     grid-column: 1 / -1;
     grid-row: 1;
     position: relative;
-    height: 200px;
+    height: 220px;
     overflow: hidden;
 }
 
 .event-image {
+    margin: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;

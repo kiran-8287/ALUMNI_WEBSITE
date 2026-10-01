@@ -5,56 +5,54 @@ import Navbar from '../components/Navbar/Navbar';
 import Footer from '../components/Footer/Footer';
 import './Events.css';
 // Event images
-import sacAlumnimeet from '../assets/SACAlumnimeet.png';
-import cvWriting from '../assets/CVWritingMitul.png';
-import startup1 from '../assets/Building a tech startup 1.png';
+import sacAlumnimeet from "../assets/Alumni Reunion/AR 4C.webp";
+import alumniPark from '../assets/API 1C.webp';
 import fallbackImg from '../assets/iit_pkd.jpg';
 
 const Events = () => {
   const events = [
     {
       id: 1,
-      name: "SAC Alumni Meet",
+      name: "First Alumni Reuniuon",
       route: "/Event1",
       description: "Annual alumni gathering and networking event",
-      weekday: "Saturday",
-      day: "21",
-      monthYear: "June 2024",
+      weekday: "Saturday and Sunday",
+      day: "6th and 7th",
+      monthYear: "December 2025",
       venue: "IIT Palakkad Campus",
-      duration: "1 day event",
+      duration: "2 day event",
       type: "Networking"
     },
+    // {
+    //   id: 2,
+    //   name: "CV Writing Session",
+    //   route: "/Event2",
+    //   description: "Professional development workshop for students",
+    //   weekday: "Saturday",
+    //   day: "28",
+    //   monthYear: "Sep 2024",
+    //   venue: "Seminar Hall A",
+    //   duration: "2 hour event",
+    //   type: "Workshop"
+    // },
     {
       id: 2,
-      name: "CV Writing Session",
+      name: "Alumni Park Inauguration",
       route: "/Event2",
-      description: "Professional development workshop for students",
-      weekday: "Saturday",
-      day: "28",
-      monthYear: "Sep 2024",
-      venue: "Seminar Hall A",
-      duration: "2 hour event",
-      type: "Workshop"
-    },
-    {
-      id: 3,
-      name: "Session on Building a tech startup",
-      route: "/Event3",
-      description: "Entrepreneurship insights and guidance",
-      weekday: "Tuesday",
-      day: "15",
-      monthYear: "Oct 2024",
-      venue: "Auditorium",
+      description: "Alumni Park Inauguration",
+      weekday: "Friday",
+      day: "18",
+      monthYear: "June 2025",
+      venue: "Alumni Park",
       duration: "Half day event",
-      type: "Seminar"
+      type: "Inauguration"
     }
   ];
 
   // Map events to their images (fallback for those without a specific image)
   const eventImages = {
     1: sacAlumnimeet,
-    2: cvWriting,
-    3: startup1,
+    2: alumniPark,
   };
 
   // Animation variants
@@ -110,7 +108,7 @@ const Events = () => {
             <motion.div
               key={event.id}
               variants={cardVariants}
-              whileHover={{ y: -8 }}
+              whileHover={{ y: -1}}
               transition={{ duration: 0.3 }}
             >
               <Link to={event.route} className="event-card">
