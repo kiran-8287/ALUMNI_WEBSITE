@@ -5,6 +5,8 @@ import menu from "../../assets/menu.svg";
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 import useStore from '../../Store';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase/firebaseConfig';
 // import { FaUserCircle } from "react-icons/fa";
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -16,9 +18,13 @@ const Navbar = () => {
 
   const logout = useStore((state) => state.logout);
 
-  const handleLogout = () => {
-    logout();
-    setShowMenu(false);
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } finally {
+      logout();
+      setShowMenu(false);
+    }
   };
 
   return (

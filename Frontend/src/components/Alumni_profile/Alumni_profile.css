@@ -1,133 +1,53 @@
 /* ==========================================================================
-   Alumni Profile Page  —  Clean redesign
-   --------------------------------------------------------------------------
-   A modern, minimal look for the alumni profile page (real + demo share these
-   classes). Reduced gold/yellow, refined typography, card-based layout.
+   Alumni Profile Page  —  Clean redesign v3 (matches preview)
    ========================================================================== */
 
 :root {
-  /* Core palette (subdued, institution-friendly) */
+  /* Neutral palette */
   --bg: #f4f6fb;
   --surface: #ffffff;
-  --ink: #1f2430;          /* primary text */
-  --muted: #6b7280;        /* secondary text */
-  --line: #e6e9f0;         /* borders / dividers */
-  --brand: #2b3a8f;        /* deep indigo accent */
+  --ink: #1f2430;
+  --muted: #6b7280;
+  --line: #e6e9f0;
+  --brand: #2b3a8f;
   --brand-weak: #eef1fc;
-  --accent: #0ea5a4;       /* teal accent (sparingly) */
+  --accent: #0ea5a4;
   --success: #16a34a;
 
-  /* Typography */
   --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
   --radius: 16px;
-  --shadow: 0 12px 40px -12px rgba(31, 36, 48, 0.18);
+  --shadow: 0 12px 40px -12px rgba(31, 36, 48, 0.12);
 }
 
 /*----------------------------- Reset & base ------------------------------*/
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
   font-family: var(--font);
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.5;
   color: var(--ink);
   background: var(--bg);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
-
-.container {
-  max-width: 1060px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/*----------------------------- Top header -------------------------------*/
-.top-header {
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 12px rgba(31, 36, 48, 0.04);
-}
-
-.header-logos {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  max-width: 1060px;
-  margin: 0 auto;
-  padding: 12px 20px;
-}
-
-.logo-effect {
-  display: inline-flex;
-  align-items: center;
-  transition: transform 0.25s ease, opacity 0.25s ease;
-}
-
-.logo-effect:hover {
-  transform: translateY(-1px);
-}
-
-.iit-logo {
-  max-height: 64px;
-  width: auto;
-  border-radius: 10px;
-}
-
-.iar-logo {
-  max-height: 56px;
-  width: auto;
-}
-
-.header-logos img {
-  max-height: 72px;
-  margin: 4px 6px;
-  transition: transform 0.3s ease;
-}
-
-.iit-logo {
-  height: 60px;
-}
-
-.iar-logo {
-  height: 56px;
-}
+.container { max-width: 1060px; margin: 0 auto; padding: 0 20px; }
 
 /*----------------------------- Page header ------------------------------*/
 .page-header {
   text-align: center;
-  /* Top padding clears the fixed navbar (80px) so the header isn't hidden
-     behind it. */
   padding: calc(80px + 28px) 20px 44px;
   background: linear-gradient(135deg, #ebefff 0%, #f7f9ff 100%);
   border-bottom: 1px solid var(--line);
-  margin-top: 0;
 }
-
 .page-title {
-  font-family: var(--font);
   font-size: clamp(1.8rem, 3.2vw, 2.5rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--ink);
-  margin: 0;
 }
-
-/* thin, neutral accent underline instead of a heavy gold bar */
 .page-title::after {
   content: "";
   display: block;
@@ -137,18 +57,10 @@ body {
   background: linear-gradient(90deg, var(--brand), var(--accent));
   border-radius: 99px;
 }
-
-.page-subtitle {
-  font-size: 1.05rem;
-  color: var(--muted);
-  margin-top: 10px;
-  font-weight: 400;
-}
+.page-subtitle { font-size: 1.05rem; color: var(--muted); margin-top: 10px; }
 
 /*------------------------- Main content wrapper --------------------------*/
-.main-content-wrapper {
-  padding-bottom: 64px;
-}
+.main-content-wrapper { padding-bottom: 64px; }
 
 /*----------------------------- Profile card ------------------------------*/
 .profile-card {
@@ -162,21 +74,8 @@ body {
   position: relative;
   overflow: hidden;
 }
-
-.fade-in-up {
-  animation: fadeInUp 0.5s ease both;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+.fade-in-up { animation: fadeInUp .5s ease both; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(16px);} to { opacity: 1; transform: translateY(0);} }
 
 /*----------------------------- Profile header ----------------------------*/
 .profile-header {
@@ -187,136 +86,178 @@ body {
   margin-bottom: 28px;
   border-bottom: 1px solid var(--line);
 }
-
-.profile-avatar {
-  flex-shrink: 0;
-}
-
-.avatar-container {
-  position: relative;
-  width: 132px;
-  height: 132px;
-}
-
+.profile-avatar { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.avatar-container { position: relative; width: 132px; height: 132px; }
 .avatar-img {
-  width: 132px;
-  height: 132px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #fff;
-  box-shadow: 0 8px 24px rgba(31, 36, 48, 0.18);
+  width: 132px; height: 132px; object-fit: cover; border-radius: 50%;
+  border: 3px solid #fff; box-shadow: 0 8px 24px rgba(31, 36, 48, .18);
 }
-
 .status-badge {
-  position: absolute;
-  bottom: 2px;
-  right: 2px;
-  background: var(--success);
-  color: #fff;
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 3px 9px;
-  border-radius: 999px;
-  box-shadow: 0 2px 8px rgba(22, 163, 74, 0.4);
+  position: absolute; bottom: 2px; right: 2px;
+  background: var(--success); color: #fff; font-size: .72rem; font-weight: 600;
+  padding: 3px 9px; border-radius: 999px; box-shadow: 0 2px 8px rgba(22,163,74,.4);
 }
 
-/*---------------------- Testimonial (clean card) -------------------------*/
-.testimonial-block {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+/* NEW — optional "open to mentoring" badge under the avatar */
+.mentor-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: .72rem; font-weight: 600; color: var(--accent);
+  background: #e6f9f8; border: 1px solid #c7efec;
+  padding: 4px 10px; border-radius: 999px; white-space: nowrap;
 }
 
+/*---------------------- Testimonial -------------------------*/
+.testimonial-block { flex: 1; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .testimonial-quote {
   position: relative;
   background: var(--brand-weak);
   border-left: 4px solid var(--brand);
   border-radius: 12px;
-  padding: 20px 22px 20px 26px;
-  font-size: 1.02rem;
+  padding: 26px 28px 24px 30px;
+  overflow: hidden;
+}
+.testimonial-quote::before {
+  content: "\201C";
+  position: absolute;
+  top: -18px;
+  left: 8px;
+  font-family: var(--font-serif);
+  font-size: 5.5rem;
+  line-height: 1;
+  color: var(--brand);
+  opacity: 0.10;
+  pointer-events: none;
+}
+.testimonial-quote span:not(.quote-mark) {
+  position: relative;
+  font-family: var(--font-serif);
+  font-size: 1.14rem;
   line-height: 1.65;
   color: #2a3140;
-  font-style: normal;
+  font-style: italic;
 }
-
-.quote-mark {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.1em;
-  color: var(--brand);
-}
-
+.testimonial-quote .quote-mark { display: none; }
 .testimonial-author {
-  font-size: 0.9rem;
+  font-size: .9rem;
   font-weight: 600;
   color: var(--muted);
   display: flex;
   align-items: center;
   gap: 8px;
+  padding-left: 4px;
+}
+.testimonial-author::before {
+  content: "";
+  width: 18px;
+  height: 2px;
+  background: var(--accent);
+  display: inline-block;
 }
 
 /*----------------------------- Profile content ----------------------------*/
-.profile-content {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
+.profile-content { display: flex; flex-direction: column; gap: 20px; }
 
 .details-section {
   background: #fbfcfe;
   border: 1px solid var(--line);
   border-radius: 14px;
-  padding: 22px 24px;
+  padding: 20px 22px;
 }
 
 .section-title {
-  font-size: 1.02rem;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--brand);
-  margin-bottom: 16px;
-  padding-bottom: 10px;
+  color: var(--accent);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
   border-bottom: 1px solid var(--line);
+}
+
+.detail-group + .detail-group { margin-top: 22px; }
+.detail-group-title {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--accent);
+  margin-bottom: 10px;
 }
 
 .details-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 14px 20px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 6px 24px;
 }
 
 .detail-item {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding: 6px 0;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 0;
 }
 
+.detail-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid var(--line);
+  color: var(--brand);
+  font-size: 1rem;
+}
+
+.detail-icon svg { width: 16px; height: 16px; }
+
+.detail-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+
 .detail-label {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  letter-spacing: 0.03em;
   color: var(--muted);
 }
 
 .detail-value {
-  font-size: 0.98rem;
-  font-weight: 500;
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--ink);
   word-break: break-word;
 }
 
-/*----------------------------- Buttons -----------------------------------*/
-.button-container {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 28px;
+/*----------------------------- Contact chips -----------------------------*/
+.contact-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--brand);
+  background: #fff;
+  border: 1px solid var(--line);
+  padding: 6px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: border-color .15s ease, transform .15s ease;
+}
+.contact-chip:hover { border-color: var(--brand); transform: translateY(-1px); }
+.contact-chip svg { width: 14px; height: 14px; }
+
+/*----------------------------- Skill tags -----------------------------*/
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.tag-pill {
+  font-size: .78rem; font-weight: 600; color: var(--brand);
+  background: var(--brand-weak); border: 1px solid #d9e0fb;
+  padding: 5px 12px; border-radius: 999px;
 }
 
+/*----------------------------- Buttons -----------------------------------*/
+.button-container { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
 .styled-button {
   display: inline-flex;
   align-items: center;
@@ -326,74 +267,28 @@ body {
   padding: 12px 24px;
   border-radius: 999px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   border: none;
+  transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
 }
-
-.update-button {
-  background: var(--brand);
-  color: #fff;
-  box-shadow: 0 8px 20px -6px rgba(43, 58, 143, 0.55);
-}
-
-.update-button:hover {
-  background: #22307a;
-  transform: translateY(-2px);
-}
-
-.verify-button {
-  background: #fff;
-  border: 1.5px solid var(--brand);
-  color: var(--brand);
-}
-
-.verify-button:hover {
-  background: var(--brand-weak);
-}
+.update-button { background: var(--brand); color: #fff; box-shadow: 0 8px 20px -6px rgba(43,58,143,.55); }
+.update-button:hover { background: #22307a; transform: translateY(-2px); }
+.verify-button { background: #fff; border: 1.5px solid var(--brand); color: var(--brand); }
+.verify-button:hover { background: var(--brand-weak); }
 
 /*-------------------------- Spinner / loading ----------------------------*/
 .spinner {
-  border: 4px solid var(--line);
-  border-top-color: var(--brand);
-  border-radius: 50%;
-  width: 44px;
-  height: 44px;
-  margin: 60px auto;
-  animation: spin 0.8s linear infinite;
+  border: 4px solid var(--line); border-top-color: var(--brand);
+  border-radius: 50%; width: 44px; height: 44px; margin: 60px auto;
+  animation: spin .8s linear infinite;
 }
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /*----------------------------- Responsive --------------------------------*/
 @media (max-width: 720px) {
-  .profile-header {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .avatar-container {
-    width: 108px;
-    height: 108px;
-  }
-
-  .avatar-img {
-    width: 108px;
-    height: 108px;
-  }
-
-  .testimonial-quote {
-    border-left-width: 3px;
-    border-left: 3px solid var(--brand);
-    padding: 16px 18px;
-    text-align: left;
-  }
-
-  .testimonial-author {
-    justify-content: center;
-  }
+  .profile-header { flex-direction: column; align-items: center; text-align: center; }
+  .avatar-container { width: 108px; height: 108px; }
+  .avatar-img { width: 108px; height: 108px; }
+  .testimonial-quote { border-left-width: 3px; padding: 20px 18px 18px 22px; text-align: left; }
+  .testimonial-author { justify-content: center; }
+  .detail-item { padding: 8px 4px; }
 }
