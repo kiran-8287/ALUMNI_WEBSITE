@@ -7,16 +7,19 @@ import useStore from '../Store';
 
 const AlumniDirectorySignIn = () => {
   const token = useStore((state)=>state.token);
+  const userRole = useStore((state)=>state.userRole);
   
   return (
     <div className="alumni-signin-container">
       <Navbar />
       <hr className="alumni-divider" />
       <div className="alumni-content">
-        {token ? (
+        {token && userRole === 'admin' ? (
           <p className="alumni-message">
-            You are already logged in. <Link to="/AlumniDirectory" className="alumni-link">Go to Alumni Directory</Link>
+            Administrator access confirmed. <Link to="/AlumniDirectory" className="alumni-link">Open Alumni Directory</Link>
           </p>
+        ) : token ? (
+          <p className="alumni-message">The Alumni Directory is restricted to administrators.</p>
         ) : (
           <>
             <p className="alumni-message">

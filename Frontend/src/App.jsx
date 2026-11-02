@@ -21,10 +21,9 @@ import './App.css';
 import IDCardGeneratorPage from './pages/IDCardGenerator/IDCardGenerator';
 import NotFoundPage from './components/PageNotFound/NotFoudPage';
 import Preloader from './components/Preloader/Preloader';
+import DemoProfile from './pages/DemoProfile';
 function App() {
   const token = useStore((state) => state.token);
-  const user = useStore((state) => state.userRole);
-  console.log("the user here in the app.jsx file is " + user);
   return (
   <div className='bg'>
     <Router>
@@ -47,10 +46,12 @@ function App() {
         <Route path="/SignUp" element={<SignUpPage />} />
           {/* Protected Routes */}
           <Route path="/id-card-generator" element={<IDCardGeneratorPage />} />
-        <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/AlumniDirectory" element={<AlumniDirectory />} />  </Route>
+        <Route element={<PrivateRouteProfile token={token} requiredRole="admin" />}>
+          <Route path="/AlumniDirectory" element={<AlumniDirectory />} />
+          <Route path="/admin-dashboard" element={<Admin />} />
+        </Route>
         <Route element={<PrivateRouteProfile token={token}/>}> <Route path="/profile" element={<AlumniProfile />} />  </Route>
-        
-        <Route element={<PrivateRouteProfile token={user==="admin"}/>}> <Route path="/admin-dashboard" element={<Admin />} />  </Route>
+        <Route path="/profile-demo" element={<DemoProfile />} />  {/* Dummy profile preview (no auth needed) */}
         {/* <Route path="/Dashboard" element={<Admin />} />   */}
           <Route path="*" element={<NotFoundPage />} />
       </Routes>

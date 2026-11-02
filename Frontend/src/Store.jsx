@@ -13,7 +13,7 @@ const useStore = create(
       setTokenId:(id)=>set({tokenId:id}),
       setToken: (val) => set({ token:val }),
       setUserEmail: (email) => set({ userEmail: email }),
-      logout: () => set({ token: false, userEmail: "" }),
+      logout: () => set({ token: false, tokenId: "", userEmail: "", userRole: "" }),
     }),
     {
       name: 'auth-storage', // persisted key

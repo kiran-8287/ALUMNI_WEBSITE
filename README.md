@@ -39,3 +39,28 @@ Iar-cell
     reach us section is modified
     alumni directory sign in page is updated
 }
+
+## Registration identity verification
+
+Before an alumnus can register, an institute administrator must add a document
+to Firestore collection `campus_id_allowlist`. Use the 9-digit Campus ID as the
+document ID and include the approved email and `active: true`, for example:
+
+```json
+{
+  "email": "alumnus@example.com",
+  "active": true
+}
+```
+
+Registration matches both the Campus ID and email and consumes the allowlist
+entry. The resulting student record remains `verified: false` until an
+administrator verifies it. Only verified student records are authorized for
+portal access. This allowlist must be populated from an institute-approved
+source; do not accept user-submitted IDs as entries.
+
+The admin dashboard and alumni directory require an administrator record in
+the backend `admin` collection. Dashboard reads and writes use admin-only API
+routes. Deploy `Backend/firestore.rules` to the Firebase project as well; it
+blocks direct browser reads and writes while the backend Admin SDK continues
+to operate.

@@ -156,6 +156,63 @@ async function verifyFirebaseToken(req, res, next) {
     }
 }
 
+// Authentication proves control of a Google account. Portal access also
+// requires an institute-approved identity record.
+async function authorizePortalUser(req, res, next) {
+    const email = req.user && req.user.email;
+    if (!email) return res.status(403).json({ error: "Portal access is not authorized" });
+
+    try {
+        const adminSnapshot = await firestore
+            .collection("admin")
+            .where("Email", "==", email)
+            .limit(1)
+            .get();
+        if (!adminSnapshot.empty) {
+            req.portalRole = "admin";
+            return next();
+        }
+
+        const studentSnapshot = await firestore
+            .collection("students")
+            .where("Email", "==", email)
+            .limit(1)
+            .get();
+        const student = studentSnapshot.empty ? null : studentSnapshot.docs[0].data();
+        if (!student || student.verified !== true) {
+            return res.status(403).json({ error: "Portal access is pending institute verification" });
+        }
+
+        req.portalRole = "alumni";
+        next();
+    } catch (error) {
+        console.error("Portal authorization error:", error);
+        res.status(500).json({ error: "Unable to authorize portal access" });
+    }
+}
+
+async function requireAdmin(req, res, next) {
+    const email = req.user && req.user.email;
+    if (!email) return res.status(403).json({ error: "Administrator access is required" });
+
+    try {
+        const adminSnapshot = await firestore
+            .collection("admin")
+            .where("Email", "==", email)
+            .limit(1)
+            .get();
+        if (adminSnapshot.empty) {
+            return res.status(403).json({ error: "Administrator access is required" });
+        }
+
+        req.portalRole = "admin";
+        next();
+    } catch (error) {
+        console.error("Admin authorization error:", error);
+        res.status(500).json({ error: "Unable to authorize administrator access" });
+    }
+}
+
 /* -------------------------------------------------------------------------- */
 /*                           🧠 Firestore Utilities                           */
 /* -------------------------------------------------------------------------- */
@@ -189,7 +246,8 @@ app.post("/check-email", verifyFirebaseToken, async(req, res) => {
             .limit(1)
             .get();
 
-        if (!studentSnap.empty) {
+        const student = studentSnap.empty ? null : studentSnap.docs[0].data();
+        if (student && student.verified === true) {
             return res.json({
                 exists: true,
                 role: "alumni",
@@ -237,7 +295,11 @@ app.post("/check-duplicate", async(req, res) => {
 });
 
 app.post("/register", async(req, res) => {
-    const data = req.body;
+    const data = req.body || {};
+
+    if (typeof data.CampusID !== "string" || !/^\d{9}$/.test(data.CampusID)) {
+        return res.status(400).json({ error: "Campus ID must be exactly 9 digits" });
+    }
 
     const requiredFields = [
         "CampusID",
@@ -261,22 +323,47 @@ app.post("/register", async(req, res) => {
     }
 
     try {
-        // Check if document with this CampusID already exists
-        const docRef = firestore.collection("students").doc(data.CampusID);
-        const docSnapshot = await docRef.get();
+        // Public signup must match an institute-provisioned Campus ID and its
+        // approved email. Consume the allowlist record atomically to prevent
+        // duplicate claims and races between concurrent registration requests.
+        const campusIdRef = firestore.collection("campus_id_allowlist").doc(data.CampusID);
+        const studentRef = firestore.collection("students").doc(data.CampusID);
+        const normalizedEmail = String(data.Email).trim().toLowerCase();
+        let registrationError = null;
 
-        if (docSnapshot.exists) {
-            return res
-                .status(400)
-                .json({ error: "A record with this CampusID already exists" });
-        }
+        await firestore.runTransaction(async(transaction) => {
+            registrationError = null;
+            const campusIdSnapshot = await transaction.get(campusIdRef);
+            const studentSnapshot = await transaction.get(studentRef);
+            const approvedIdentity = campusIdSnapshot.exists ? campusIdSnapshot.data() : null;
 
-        // Create new document with CampusID as document ID
-        await docRef.set({
-            ...data,
-            verified: false,
-            testimonial: "",
+            if (!approvedIdentity || approvedIdentity.active !== true ||
+                String(approvedIdentity.email || "").trim().toLowerCase() !== normalizedEmail) {
+                registrationError = "Campus ID or email could not be verified. Contact the Alumni Relations Office.";
+                return;
+            }
+
+            if (studentSnapshot.exists) {
+                registrationError = "A record with this CampusID already exists";
+                return;
+            }
+
+            transaction.create(studentRef, {
+                ...data,
+                Email: normalizedEmail,
+                verified: false,
+                testimonial: "",
+            });
+            transaction.update(campusIdRef, {
+                active: false,
+                claimedAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
         });
+
+        if (registrationError) {
+            const status = registrationError.startsWith("A record") ? 400 : 403;
+            return res.status(status).json({ error: registrationError });
+        }
 
         res.json({
             success: true,
@@ -290,7 +377,7 @@ app.post("/register", async(req, res) => {
 /* -------------------------------------------------------------------------- */
 /*                         👤 Get Logged-in Profile                            */
 /* -------------------------------------------------------------------------- */
-app.get("/api/profile", verifyFirebaseToken, async(req, res) => {
+app.get("/api/profile", verifyFirebaseToken, authorizePortalUser, async(req, res) => {
     const email = req.user.email;
 
     const snapshot = await firestore
@@ -383,9 +470,64 @@ app.get("/departments", async(_, res) => {
     }
 });
 
+// Admin dashboard data and mutations are kept behind server-side role checks.
+app.get("/admin/students", verifyFirebaseToken, requireAdmin, async(_, res) => {
+    try {
+        const snapshot = await firestore.collection("students").get();
+        res.json(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    } catch (error) {
+        console.error("Error fetching admin student records:", error);
+        res.status(500).json({ error: "Failed to fetch student records" });
+    }
+});
+
+app.post("/admin/students", verifyFirebaseToken, requireAdmin, async(req, res) => {
+    try {
+        const data = req.body;
+        if (!data || typeof data !== "object" || Array.isArray(data)) {
+            return res.status(400).json({ error: "A student record is required" });
+        }
+        const docRef = await firestore.collection("students").add(data);
+        res.status(201).json({ id: docRef.id, ...data });
+    } catch (error) {
+        console.error("Error creating student record:", error);
+        res.status(500).json({ error: "Failed to create student record" });
+    }
+});
+
+app.patch("/admin/students/:id", verifyFirebaseToken, requireAdmin, async(req, res) => {
+    try {
+        const data = req.body;
+        if (!data || typeof data !== "object" || Array.isArray(data)) {
+            return res.status(400).json({ error: "A student record is required" });
+        }
+        const docRef = firestore.collection("students").doc(req.params.id);
+        const snapshot = await docRef.get();
+        if (!snapshot.exists) return res.status(404).json({ error: "Student record not found" });
+        await docRef.set(data, { merge: true });
+        res.json({ success: true });
+    } catch (error) {
+        console.error("Error updating student record:", error);
+        res.status(500).json({ error: "Failed to update student record" });
+    }
+});
+
+app.delete("/admin/students/:id", verifyFirebaseToken, requireAdmin, async(req, res) => {
+    try {
+        const docRef = firestore.collection("students").doc(req.params.id);
+        const snapshot = await docRef.get();
+        if (!snapshot.exists) return res.status(404).json({ error: "Student record not found" });
+        await docRef.delete();
+        res.json({ success: true });
+    } catch (error) {
+        console.error("Error deleting student record:", error);
+        res.status(500).json({ error: "Failed to delete student record" });
+    }
+});
+
 //API to Get Alumni Data with Filters
 //Filters: name, campusID, yearOfPassOut, degree, department
-app.get("/alumni", verifyFirebaseToken, async(req, res) => {
+app.get("/alumni", verifyFirebaseToken, requireAdmin, async(req, res) => {
     try {
         const { name, campusID, yearOfPassOut, degree, department, lastDocId } = req.query;
 
@@ -448,9 +590,15 @@ app.get("/alumni", verifyFirebaseToken, async(req, res) => {
 
 //api to fetch user profile by email
 // API to update user profile by email
-app.patch("/api/profile/", verifyFirebaseToken, async(req, res) => {
+app.patch("/api/profile/", verifyFirebaseToken, authorizePortalUser, async(req, res) => {
     const email = req.user.email;
-    const updatedData = req.body;
+    const updatedData = { ...(req.body || {}) };
+
+    // These fields are controlled by institute staff and must not be writable
+    // through the self-service profile endpoint.
+    delete updatedData.CampusID;
+    delete updatedData.Email;
+    delete updatedData.verified;
 
     try {
         const snapshot = await firestore

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import {db} from '../../firebase/firebaseConfig'
-// import { initializeApp } from 'firebase/firestore';
-import { getFirestore, collection, getDocs, addDoc, updateDoc, doc, deleteDoc } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../firebase/firebaseConfig';
 import './Admin.css';
 import iarcell from '../../assets/iar.png';
 import { getSelectedAlumni,exportToCSV,exportToExcel,exportToPDF } from '../../utils/exportUtils';
@@ -10,6 +9,25 @@ import {
   FiGrid, FiUsers, FiSettings, FiX, FiChevronLeft, FiChevronRight,
   FiRotateCcw, FiFilter, FiCheck, FiHardDrive, FiSearch, FiMenu, FiEye
 } from 'react-icons/fi';
+
+const ADMIN_API_BASE = 'https://alumni-website-v7pq.onrender.com';
+
+async function adminRequest(path, options = {}) {
+  const currentUser = auth.currentUser;
+  if (!currentUser) throw new Error('Please sign in again to continue.');
+
+  const response = await fetch(`${ADMIN_API_BASE}${path}`, {
+    ...options,
+    headers: {
+      Authorization: `Bearer ${await currentUser.getIdToken()}`,
+      ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+      ...options.headers,
+    },
+  });
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(result.error || 'Administrator request failed.');
+  return result;
+}
 
 
 // const app = initializeApp(firebaseConfig);
@@ -142,23 +160,31 @@ useEffect(() => {
 
   // Fetch alumni data
   useEffect(() => {
-    const fetchAlumni = async () => {
+    let active = true;
+    const unsubscribe = onAuthStateChanged(auth, async(currentUser) => {
+      if (!currentUser) {
+        if (active) {
+          setLoading(false);
+          showNotification('Please sign in with an administrator account.', 'error');
+        }
+        return;
+      }
+
       try {
-        const querySnapshot = await getDocs(collection(db, 'students'));
-        const alumniList = querySnapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
-        setAlumniData(alumniList);
+        const alumniList = await adminRequest('/admin/students');
+        if (active) setAlumniData(alumniList);
       } catch (error) {
-        showNotification('Failed to fetch alumni data', 'error');
+        if (active) showNotification(error.message || 'Failed to fetch alumni data', 'error');
         console.error('Error fetching data: ', error);
       } finally {
-        setLoading(false);
+        if (active) setLoading(false);
       }
+    });
+
+    return () => {
+      active = false;
+      unsubscribe();
     };
-    
-    fetchAlumni();
   }, []);
 
   // Notification handler
@@ -196,8 +222,11 @@ useEffect(() => {
   // CRUD Operations
   const addAlumni = async () => {
     try {
-      const docRef = await addDoc(collection(db, 'students'), newAlumni);
-      setAlumniData(prev => [...prev, { id: docRef.id, ...newAlumni }]);
+      const createdRecord = await adminRequest('/admin/students', {
+        method: 'POST',
+        body: JSON.stringify(newAlumni),
+      });
+      setAlumniData(prev => [...prev, createdRecord]);
       showNotification('Alumni added successfully', 'success');
       setActiveModal(null);
       resetForm();
@@ -209,7 +238,10 @@ useEffect(() => {
 
   const updateAlumni = async () => {
     try {
-      await updateDoc(doc(db, 'students', editAlumni.id), editAlumni);
+      await adminRequest(`/admin/students/${encodeURIComponent(editAlumni.id)}`, {
+        method: 'PATCH',
+        body: JSON.stringify(editAlumni),
+      });
       setAlumniData(prev => 
         prev.map(item => item.id === editAlumni.id ? editAlumni : item)
       );
@@ -224,7 +256,7 @@ useEffect(() => {
   const deleteAlumni = async (id) => {
     if (window.confirm('Are you sure you want to delete this alumni record?')) {
       try {
-        await deleteDoc(doc(db, 'students', id));
+        await adminRequest(`/admin/students/${encodeURIComponent(id)}`, { method: 'DELETE' });
         setAlumniData(prev => prev.filter(item => item.id !== id));
         showNotification('Alumni deleted successfully', 'success');
       } catch (error) {
@@ -239,8 +271,8 @@ useEffect(() => {
     
     if (window.confirm(`Delete ${selectedRows.size} selected alumni?`)) {
       try {
-        const deletePromises = Array.from(selectedRows).map(id => 
-          deleteDoc(doc(db, 'students', id))
+        const deletePromises = Array.from(selectedRows).map(id =>
+          adminRequest(`/admin/students/${encodeURIComponent(id)}`, { method: 'DELETE' })
         );
         await Promise.all(deletePromises);
         setAlumniData(prev => prev.filter(item => !selectedRows.has(item.id)));
