@@ -6,10 +6,9 @@
 .subEvents {
     min-height: 100vh;
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    margin-top: 6rem;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    margin-top: 6rem;background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
     font-family: 'Poppins', sans-serif;
     padding: 3rem 2rem;
     line-height: 1.7;
@@ -67,6 +66,7 @@
 .event-content {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 2.5rem;
 }
 
@@ -203,12 +203,12 @@
 .event-image {
     margin: 2.5rem auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     gap: 1rem;
     width: 100%;
-    max-width: 900px;
+    max-width: 1000px;
 }
 
 .event-photo {
@@ -468,10 +468,10 @@
         font-size: 1rem;
     }
     
-    .event-photo {
+    /* .event-photo {
         border-radius: 12px;
     }
-    
+     */
     .image-caption {
         font-size: 0.9rem;
     }
@@ -656,9 +656,9 @@
         font-size: 0.85rem;
     }
     
-    .event-photo {
+    /* .event-photo {
         border-radius: 10px;
-    }
+    } */
 }
 
 /* Smooth Transitions */
